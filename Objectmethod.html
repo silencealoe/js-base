@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //Object.getPrototypeOf()  获取原型对象
+        console.log(Object.getPrototypeOf(Object) === Function.prototype)  //Object.__proto__  
+        //Object.setPrototypeOf()   //设置原型对象
+
+        var a = {};
+        var b = {
+            x: 1
+        }
+        Object.setPrototypeOf(a, b)  //将a的原型对象设置为b
+        console.log(a.x)  //1 
+        console.log(Object.setPrototypeOf(a, b))
+        //Object.setPrototypeof模拟new
+        function Fun() {
+            this.name = "ming"
+        }
+        var f = Object.setPrototypeOf({}, Fun.prototype);   //将空对象的原型对象设置为构造函数的原型
+        Fun.call(f)  //将构造函数的this指向这个对象
+        console.log(f.name)
+
+        //Object.create() 从一个实例生成另外一个实例,参数不能为空，参数必须是对象
+
+        //生成新对象的三种方式（等价）
+        var obj1 = Object.create({});
+        var obj2 = Object.create(Object.prototype);
+        var obj3 = new Object();
+
+        //isPrototypeOf方法，用来判断该对象是否为参数对象的原型
+        var obj1 = {};
+        var obj2 = Object.create(obj1);
+        console.log(obj1.isPrototypeOf(obj2));  //判断obj1是否是obj2的原型
+
+
+        //Object.prototype.__proto__   实例对象的__proto__属性，返回该对象原型，
+
+        function Person() { name: 'xiaoming' }
+        var p = new Person();
+        console.log(p.constructor === Person.prototype.constructor)   //true
+        //__proto__属性只有浏览器可以部署
+
+
+        //Object.getOwnPropertyNames方法返回一个数组，成员是参数对象本身的所有属性的键名，不包含继承的属性键名。
+        //不管是否可以遍历，都遍历出来
+        var obj4 = {
+            name: 'xiaoming',
+            age: 20,
+            gender: 'male'
+        }
+        console.log(Object.keys(obj4))   //所有属性名  
+
+        //hasOwnProperty方法是 JavaScript 之中唯一一个处理对象属性时，不会遍历原型链的方法。
+        //判断属性是否定义在自身。
+
+        //in  运算符不区分属性是自身还是继承的，用于检查属性是否存在
+
+        //获得对象的所有可遍历属性（不管是自身的还是继承的），可以使用for...in循环。
+
+        //对象的拷贝？？？
+        var ori = { x: 1, y: 2 };
+        var target = Object.assign({}, ori);
+        console.log(ori.__proto__ === target.__proto__)  //true
+
+        var target_2 = JSON.parse(JSON.stringify(ori)); //先转为数组再转为对象
+        console.log(target_2)
+        console.log(ori.__proto__ === target_2.__proto__)  //true
+ 
+
+    </script>
+</body>
+
+</html>

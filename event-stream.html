@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=div, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #outside {
+            width: 50px;
+        }
+
+        ul {
+            width: 200px;
+        }
+
+        li {
+            width: 100%;
+            height: 20px;
+            background: yellow;
+            border: 1px solid black;
+            list-style: none;
+            margin-bottom: 2px;
+        }
+
+        .debtn {
+            float: right;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="outside">
+        <p id="middle">
+            <button id="btn">target</button>
+        </p>
+    </div>
+    <button id="addli">add</button>
+    <ul id="parent">
+        <li>
+            <span>1</span>
+            <button class="debtn">delete</button>
+        </li>
+        <li>
+            <span>2</span>
+            <button class="debtn">delete</button>
+        </li>
+        <li>
+            <span>3</span>
+            <button class="debtn">delete</button>
+        </li>
+
+    </ul>
+    <script>
+        document.getElementById('outside').addEventListener('click', function () {
+            console.log('aa')
+            alert('DIV')
+        }, true)
+        document.getElementById('middle').addEventListener('click', function () {
+            alert('p')
+        }, false)
+        document.getElementById('btn').addEventListener('click', function () {
+            alert('button')
+        }, true)
+
+        /* 事件代理*/
+        //利用事件冒泡及事件的目标元素，当一个元素触发某个事件，会通知到其所有祖先元素被触发
+        document.getElementById('parent').onclick = function (ev) {
+            console.log(ev.currentTarget)
+            e = ev || window.event;//这一行和下一行是为了兼容IE8以及之前版本
+            var target = e.target || e.srcElement;
+            console.log(target.tagName.toLowerCase())
+            if (target.tagName.toLowerCase() === 'button') {
+                target.parentNode.outerHTML = ''
+            }
+
+        }
+
+
+    </script>
+</body>
+
+</html>

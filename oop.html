@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+
+        console.log(this)
+
+        var fun = () => {
+
+            console.log(this)
+        }
+        fun()
+
+        function Test() {
+            'use strict';  //严格模式中，this不能指向全局对象
+            console.log(this)
+            this.value = 100;
+        }
+        var v = new Test();
+        console.log(v.value);
+
+
+        //如果构造函数内部有return语句，而且return后面跟着一个对象，new命令会返回return语句指定的对象；否则，就会不管return语句，返回this对象。
+        //但是，如果return语句返回的是一个跟this无关的新对象，new命令会返回这个新对象，而不是this对象。
+        var Vehicle = function () {
+            this.price = 1000;
+            // return 1000;
+            return {
+                price:2000
+            }
+        };
+
+        console.log((new Vehicle()).price)  //2000
+// 如果对普通函数（内部没有this关键字的函数）使用new命令，则会返回一个空对象。
+
+function getMessage() {
+  return 'this is a message';
+}
+
+var msg = new getMessage();
+
+console.log(msg) //{}
+console.log(typeof msg) // "object"
+/*
+getMessage是一个普通函数，返回一个字符串。对它使用new命令，会得到一个空对象。这是因为new命令总是返回一个对象，要么是实例对象，要么是return语句指定的对象。本例中，return语句返回的是字符串，所以new命令就忽略了该语句。
+*/
+
+/*new.target*/
+//函数内部可以使用new.target属性。如果当前函数是new命令调用，new.target指向当前函数，否则为undefined。
+
+//判断是否使用了new命令
+function f() {
+  console.log(new.target === f);
+}
+f() // false
+new f() // true
+
+/*数组随机*/
+var arr=[1,2,4,7,0,12];
+var index=Math.floor(Math.random()*arr.length);
+
+console.log(arr[index])
+
+//object.create() 
+var person1 = {
+  name: '张三',
+  age: 38,
+  greeting: function() {
+    console.log('Hi! I\'m ' + this.name + '.');
+  }
+};
+
+var person2 = Object.create(person1);
+
+person2.name // 张三
+person2.greeting() // Hi! I'm 张三.
+//构造函数作为模板，可以生成实例对象。但是，有时拿不到构造函数，只能拿到一个现有的对象。我们希望以这个现有的对象作为模板，生成新的实例对象，这时就可以使用Object.create()方法。
+
+
+
+
+
+
+    </script>
+
+</body>
+
+</html>

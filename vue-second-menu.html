@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+      *{
+          margin:0;
+          padding:0;
+      }
+
+        #menu {
+            width: 200px;
+            margin: 0 auto;
+        }
+       li{
+           width:200px;
+           min-height:50px;
+           list-style: none;
+           line-height: 50px;
+           text-align: center;
+           border-bottom: 1px solid black;
+       }
+       .one{
+           background: pink;
+       }
+       .two{
+           background: gray;
+       }
+    </style>
+</head>
+
+<body>
+   
+    <div id="menu">
+        <ul class="one">
+            <li v-for="menu in menus" @click="handleclick(menu)" class="one-list">
+                <span>{{menu.title}}</span>
+                <ul v-show="menu.isShow" class="two">
+                    <li v-for="child in menu.children">
+                        <span>{{child.titlename}}</span>
+                    </li>
+                </ul>
+            </li>
+
+        </ul>
+
+    </div>
+
+    <script src="./vuejs/vue.js"></script>
+    <script>
+        new Vue({
+            el: '#menu',
+            data: {
+                menus: [
+                    {
+                        title: 'web',
+                        isShow: false,
+                        children: [
+                            {
+                                titlename: 'js'
+                            }, {
+                                titlename: 'css'
+                            },{
+                                titlename:'vue'
+                            }
+                        ]
+
+                    }, {
+                        title: 'server',
+                        isShow: false,
+                        children: [
+                            {
+                                titlename: 'java'
+                            }, {
+                                titlename: 'php'
+                            }, {
+                                titlename: 'python'
+                            }
+                        ]
+                    },{
+                        title:'browser',
+                        isShow:false,
+                        children:[
+                            {
+                                titlename:'chrome'
+                            },{
+                                titlename:'firefox'
+                            },{
+                                titlename:'IE'
+                            }
+                        ]
+                    }
+                ]
+
+            },
+            methods: {
+                handleclick(menu) {
+                    console.log(menu.isShow)
+                    menu.isShow = !menu.isShow
+                }
+
+            }
+        })
+    </script>
+</body>
+
+</html>

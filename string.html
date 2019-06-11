@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var string='111,222,333';
+        var newstring=string.split(',').join('.');
+        console.log(newstring)
+
+
+
+        /*base64转码*/
+        var stringone='hello world';
+        var stringtwo='hello word';
+        var basestring_1=btoa(stringone);
+        console.log(basestring_1);
+        var basestring_2=btoa(stringtwo);
+        console.log(basestring_2)
+
+        var stringthree='你好'; //非ascII码转码
+        console.log(btoa(encodeURIComponent(stringthree)));
+        console.log(decodeURIComponent(atob('JUU0JUJEJUEwJUU1JUE1JUJE')));
+    </script>
+    
+</body>
+</html>

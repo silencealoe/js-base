@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        console.info('asad')
+        console.debug('adaf')
+
+        console.trace()   //当前执行代码在堆栈中的调用路径
+        console.time('initial')
+        console.timeEnd('initial')  //计算操作花费时间
+
+       // console.clear()//清除所有console记录
+
+
+        var obj={
+            name:'xiaoming',
+            age:18
+
+        }
+
+        console.dir(obj)  //更易读
+        console.log(obj)
+        console.dirxml(document.body)//显示dom结点
+
+        for(let i=0;i<5;i++){
+            console.log(i);
+            if(i===2) debugger;  //设置断点
+            if(i===4) debugger;
+        }
+
+        
+    </script>
+    
+</body>
+</html>

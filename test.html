@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+  * {
+            margin:0;
+            padding:0;
+        }
+        a{
+            text-decoration: none;
+        }
+        .container {
+            position: relative;
+            width: 600px;
+            height: 400px;
+            margin:100px auto 0 auto;
+            box-shadow: 0 0 5px green;
+            overflow: hidden;
+        }
+        .wrap {
+            position: absolute;
+            width: 4200px;
+            height: 400px;
+            z-index: 1;
+        }
+        .container .wrap div {
+            float: left;
+            width: 600px;
+            height: 400px;
+            line-height: 400px;
+            text-align: center;
+            font-size: 30px;
+            font-weight: bold;
+        }
+        .container .buttons {
+            position: absolute;
+            right: 120px;
+            bottom:20px;
+            width: 300px;
+            height: 10px;
+            z-index: 2;
+            color:red;
+            padding:10px;
+            font-size: 20px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .container .buttons span{
+          padding:10px;
+        }
+        .container .buttons span {
+            margin-left: 5px;
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: green;
+            text-align: center;
+            color:white;
+            cursor: pointer;
+        }
+        .container .buttons span.on{
+            background-color: red;
+        }
+        .container .arrow {
+            position: absolute;
+            top: 35%;
+            color: green;
+            padding:0px 14px;
+            border-radius: 50%;
+            font-size: 50px;
+            z-index: 2;
+            display: none;
+        }
+        .container .arrow_left {
+            left: 10px;
+        }
+        .container .arrow_right {
+            right: 10px;
+        }
+        .container:hover .arrow {
+            display: block;
+        }
+        .container .arrow:hover {
+            background-color: rgba(0,0,0,0.2);
+        }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="wrap" style="left:-600px;">
+        <!-- <img src="./img/5.jpg" alt=""> -->
+        <!-- <img src="./img/1.jpg" alt="">
+        <img src="./img/2.jpg" alt="">
+        <img src="./img/3.jpg" alt="">
+        <img src="./img/4.jpg" alt="">
+        <img src="./img/5.jpg" alt="">
+        <img src="./img/1.jpg" alt=""> -->
+        <div style="background:purple">1</div>
+        <div style="background:blue">2</div>
+        <div style="background:orange">3</div>
+        <div style="background:yellow">4</div>
+        <div style="background:grey">5</div>
+        <div style="background:purple">1</div>
+        
+    </div>
+    <div class="buttons">
+        <span>1</span>
+        <span>2</span>
+        <span>3</span>
+        <span>4</span>
+        <span>5</span>
+    </div>
+    <a href="javascript:;" class="arrow arrow_left">&lt;</a>
+    <a href="javascript:;" class="arrow arrow_right">&gt;</a>
+</div>
+<script >
+var wrap = document.querySelector(".wrap");
+  var next = document.querySelector(".arrow_right");
+  var prev = document.querySelector(".arrow_left");
+  var btn = document.querySelector('.buttons');
+  var dots = document.getElementsByTagName("span");
+  var pouse_timer=null;
+  var move_flg = true;
+  var index = 0;
+  var enter_flag =true;
+  next.onclick = function () {
+      next_pic();
+  }
+  prev.onclick = function () {
+      prev_pic();
+  }
+  btn.onclick = function(e){
+for(var i = 0;i<dots.length;i++){
+    dots[i].className = "";
+}
+e.target.className = "on";
+var dot_mov = parseInt(e.target.innerHTML);
+wrap.style.left = -(dot_mov-1)*600 + "px";
+pouse_interval();
+  };
+  function next_pic () {
+    index = Math.floor(-parseInt(wrap.style.left)/600)
+      index++;
+      console.log(index)
+      if(index >= 5){
+          index = 0;
+      }
+      showCurrentDot(index);
+      wrap.style.left = -index*600 + "px";
+      pouse_interval()
+  }
+  function prev_pic () {
+    index = Math.floor(-parseInt(wrap.style.left)/600)
+      index--;
+      if(index < 0){
+          index = 4;
+      }
+      showCurrentDot(index);
+      wrap.style.left = -index*600 + "px";
+      pouse_interval()
+  }
+  var timer = null;
+
+
+  var container = document.querySelector(".container");
+  container.onmouseenter = function () {
+    enter_flag = false;
+    pouse_interval(enter_flag)
+  }
+  container.onmouseleave = function () {
+    enter_flag = true;
+    auto_move();
+  }
+  container.onmousedown = function(ev){
+    index = Math.floor(-parseInt(wrap.style.left)/600)
+    console.log(index)
+    ev.preventDefault();
+ var x = ev.clientX;
+ document.onmousemove = function(ev){
+    console.log(ev.clientX-x>50)
+     if(ev.clientX-x>50){
+        index++;
+      if(index >= 5){
+          index = 0;
+      }
+      showCurrentDot(index);
+      wrap.style.left = -index*600 + "px";
+     }else if(ev.clientX-x<-100){
+        prev_pic();
+     }
+ }
+ document.onmouseup = function(){
+    document.onmousemove = null;
+    document.onmouseup = null;
+}
+  };
+  function showCurrentDot (index) {
+      for(var i = 0, len = dots.length; i < len; i++){
+          dots[i].className = "";
+      }
+      dots[index].className = "on";
+  }
+
+  function pouse_interval(ev){
+    var arr = [0,-1,-2,-3,-4]
+    if(arr.indexOf(parseInt(wrap.style.left)/600)>-1){
+      clearTimeout(pouse_timer);
+      if(ev){
+        setTimeout(auto_move,1000);
+      }
+      
+      index = Math.floor(-parseInt(wrap.style.left)/600)
+    showCurrentDot(index)
+    }
+  }
+
+  function auto_move(){
+    clearTimeout(pouse_timer)
+    //  console.log( parseInt(wrap.style.left)/600 )
+    wrap.style.left  = parseInt(wrap.style.left)-2 + 'px'
+    if(parseInt(wrap.style.left)<-3000){
+      wrap.style.left = '0px'
+    }
+    pouse_timer =setTimeout(()=>{
+      auto_move()  
+    },1)
+    pouse_interval(enter_flag)
+  }
+   auto_move()
+</script>
+</body>
+</html>

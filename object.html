@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var obj1={
+            age:12
+        }
+        // var obj2={...obj1}; //深拷贝
+        var obj2=JSON.parse(JSON.stringify(obj1)) //深拷贝
+        
+        obj1.age=18;
+        console.log(obj2);
+        var x=2;
+        var y=x;
+        x=3;
+        console.log(y);
+        eval('{foo:123}');// 执行字符串中的js代码
+
+
+        /*---for....in...遍历对象----*/
+
+
+        var objs={
+            person:[
+                {
+                name:'ming',
+                age:12,
+                sex:'male'
+            },{
+                name:'hong',
+                age:14,
+                sex:'female'
+            }],
+            animal:[
+                {
+                    name:'dog',
+                    age:1,
+                    color:'gray'
+
+                },{
+                    name:'cat',
+                    age:1,
+                    color:'yellow'
+                }
+            ]
+        }
+
+        for(var obj in objs){
+            console.log(objs[obj])
+            objs[obj].map((index)=>{
+                 console.log(index.name)
+                 
+            })
+        
+        }
+
+
+
+    </script>
+    
+</body>
+</html>

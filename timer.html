@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <button id="btn" style="width:400px;height:400px;">提交</button>
+    <script>
+        //用setTimeout模拟setInterval
+
+
+        //    function setInterval(){
+        //        setTimeout(() => {
+        //         //    callback()
+        //            console.log('cccc')
+        //            setInterval()
+        //        }, 1000);
+        //    }
+        //   function callback(){
+        //   }
+        //    setInterval()
+
+
+        //    /*-------------------------------*/
+        //    var timeid=setInterval(function(){
+        //       console.log('asdsad');
+        //    },1000)  
+        //    console.log(setTimeout('asad',100))  //3
+
+
+        //防抖  一定时间内只执行最后一次操作 ，最后一次点击结束，执行
+
+        var btn = document.getElementById('btn');
+        btn.addEventListener('mousemove', debounce());
+
+        function debounce() {
+            console.log('qqq')
+            var timer = null; //一直存在内存中
+            return function () {
+                if (timer) clearTimeout(timer);
+                timer = setTimeout(function () {
+                    alert('click')
+                }, 5000)
+            }
+
+        }
+
+        //节流，一段时间内，只执行一次,不断触发
+
+        window.addEventListener('mousemove', throttle());
+
+        function throttle() {
+            var time = new Date(); //一直存在内存
+            return function () {
+                var now = new Date();
+
+                if (now - time < 5000) {
+                    return;
+
+                }
+                setTimeout(function () {
+                    console.log('ssss');
+                    time = new Date()
+                }, 0)
+            }
+        }
+        // window.onmousemove=function(){
+        //      if(!run){
+        //         return;
+        //      }
+        //      run=false;
+
+        //     console.log('asds')
+        //     setTimeout(function(){
+        //         console.log('ssss');
+        //         run=true
+        //     },5000)
+        // }
+
+
+        /*运行机制*/
+        
+        setTimeout(function () {
+            console.log(2);   
+        }, 1000);
+
+        sleep(3000);
+
+        function sleep(ms) {
+            var start = Date.now();
+            while ((Date.now() - start) < ms) {}
+        }
+        function getdata(callback){
+            var i=0;
+            setTimeout(function(){
+               i++;
+              callback(i);
+            },0)
+        }
+
+        function callback(num){
+            console.log(num)
+        }
+        getdata(callback)   //回调解决异步
+
+        
+    </script>
+
+</body>
+
+</html>

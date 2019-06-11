@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+</head>
+<body>
+    <input type="text" id="num-input" value="" />
+    <button id="btn">确定</button>
+    <span id="re"></span>
+    <script>
+        var inpt;
+        inpt = document.getElementById('num-input');
+        var btn = document.getElementById('btn');
+        var result = document.getElementById('re');
+    
+        btn.onclick = function () {
+            console.log(inpt.value)
+            let v=inpt.value;
+            try {
+                throw '啦啦啦'
+                if (v > 10) throw '数值太大啦';
+                if (v < 5) throw '数值太小啦';
+            } catch (e) {
+                result.innerHTML = e  //e抛出的错误
+
+            }
+        }
+         
+        function testUp(){
+            try{
+                console.log('try')
+                throw 'error'  //程序停止执行，如果有catch，执行catch
+                return 'try'
+            }catch{
+                console.log('catch')
+                return 'catch22'
+
+            }finally{   //都会执行,在return之前执行
+                console.log('close')
+                // return 'close22'
+            }
+        }
+       console.log(testUp()) 
+       //try
+       //catch
+       //close
+       //catch22
+
+        // function test(){
+        //     a;
+        // }
+
+        // try{
+        //      test()
+        // }catch(e){
+        //     console.log(e)   //错误类型
+        // }
+
+
+        //使用对象代替switch..case
+      function testSwitch(animal){
+        var animals={
+            'miao':function(){
+                return 'miao'
+            },
+            'wang':function(){
+                return 'wang'
+            }
+        }
+        return animals[animal]();
+      }
+      
+        console.log(testSwitch('wang'))
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        /*--------object.defineproperty------------*/
+        /*-----
+        Object.defineProperty方法接受三个参数，依次如下。
+
+        object：属性所在的对象
+        propertyName：字符串，表示属性名
+        attributesObject：属性描述对象
+        ------------*/
+
+        // var obj = Object.defineProperty({}, 'p', {
+        //     value: 123,
+        //     writable: true
+        // })
+        // console.log(obj.p) //123
+        // obj.p = 234;
+        // console.log(obj.p) //234
+
+        // //设置多个属性
+        // var obj = Object.defineProperties({}, {
+        //     p1: {
+        //         value: 123,
+        //         enumerable: true
+        //     },
+        //     p2: {
+        //         value: 'abc',
+        //         enumerable: true
+        //     },
+        //     p3: {
+        //         get: function () {
+        //             return this.p1 + this.p2
+        //         },
+        //         enumerable: true,
+        //         configurable: true
+        //     }
+        // });
+
+        // obj.p1 // 123
+        // obj.p2 // "abc"
+        // obj.p3 // "123abc
+
+
+
+        // /*一旦定义了get函数，就不能把writable设置为true,或者同时设置value*/
+        // var obj = {};
+
+        // Object.defineProperty(obj, 'p', {
+        //     value: 123, //不能设置value
+        //     get: function () {
+        //         return 456;
+        //     }
+        // });
+        // // TypeError: Invalid property.
+        // // A property cannot both have accessors and be writable or have a value
+
+        // Object.defineProperty(obj, 'p', {
+        //     writable: true, //writable不能为true
+        //     get: function () {
+        //         return 456;
+        //     }
+        // });
+        // // TypeError: Invalid property descriptor.
+        // // Cannot both specify accessors and a value or writable attribute
+
+        // var obj = Object.defineProperty({}, 'p', {
+        //     get: function () {
+        //         return 'getter';
+        //     },
+        //     set: function (value) {
+        //         console.log('setter: ' + value);
+        //     }
+        // });
+
+        // obj.p // "getter"  取值时调用get   gettter取值函数 不能接受参数
+        // obj.p = 123 // "setter: 123"   赋值时调用set  setter赋值函数  只接受一个参数(属性值)
+
+        // var obj={
+        //     $n:5,
+        //     get next(){
+        //         return 'getter'
+        //     },
+        //     set next(value){
+        //         this.$n=n;
+
+        //     }
+        // }
+
+        //对象的拷贝
+
+        var obj={
+            name:'xiaoming',
+            age:20,
+            action:'eat'
+        }
+        var obj2={}
+        function extend(obj,obj2){
+             for(var pro in obj){
+                 obj2[pro]=obj[pro]
+             }
+             return obj2
+        }
+        console.log(obj)
+        var re=extend(obj,obj2);
+        console.log(re)
+        re.name='小红'
+        console.log(re)
+
+        var obj3=JSON.parse(JSON.stringify(obj));
+        console.log(obj3)
+        obj3.age=30;
+        console.log(obj3)
+        console.log(obj)
+        
+
+
+    </script>
+
+</body>
+
+</html>

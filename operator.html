@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        console.log(+[])    //0
+        console.log(+false)    //0
+        console.log(+'')    //0
+        //    非数值经过数值运算符以后，都变成了数值
+
+        //任何数值和NaN比较都是false
+
+        console.log(5 > '4');// 非数值转为数值再比较
+
+        console.log([09] > [11])  //true
+
+
+        var obj1 = {};
+        var obj2 = {};
+        console.log(obj1 == obj2)
+        console.log(Number('truw')) //NaN
+        console.log(Number('')) //0
+        console.log(Number('2'))  //2
+
+
+        //对象和布尔值比较，两边都转数值
+        console.log(Number([2]) == true)//false    2==1
+
+
+        //对象和数值比较,对象转数值
+        console.log([1] == 2)
+        //对象和字符串比较，对象转字符串
+        console.log([3] == 'ab')
+
+        //&&运算符  
+        console.log('a' && 2)  //如果第一个数是true返回第二个数
+        console.log('' && 'a') //如果第一个数是false返回第一个数，不对第二个数求值
+
+        console.log(true && 'foo' && '' && 4 && 'foo' && true)  //返回第一个是false的值
+        // ''
+        console.log(1 && 2 && 3)  //返回最后一个值
+
+        // 3)
+
+        //||运算符
+
+        console.log('a' || 1)  //a    如果第一个值是true，返回第一个值，不对第二个数求值
+        console.log('' || 'b')  //b   如果第一个值是false ，返回第二个值
+
+        console.log(false || 0 || '' || 4 || 'foo' || true)  //返回第一个是true的值
+        console.log(false || 0 || '')   //如果都是false,返回最后一个值
+
+        console.log(2 - 'a')  //2-NaN=NaN
+        console.log(Number(undefined))  //NaN
+        console.log(Number(null))   //0
+
+        console.log('\v\r\t2')
+
+        var object = {
+            x: 1
+        }
+        console.log(object.valueOf().toString())
+        console.log(Number(object))
+
+        var array = [1, 2, 3];
+        console.log(String(array)) //1,2,3
+        console.log(array.toString())  //1,2,3
+        console.log(array.join('-'))  //1-2-3
+        
+        Boolean(undefined) // false
+        Boolean(null) // false
+        Boolean(0) // false
+        Boolean(NaN) // false
+        Boolean('') // false
+        /*除了这五个值，其他都转换为true*/
+
+
+        console.log(Number([1,2]))   //数组中只有一个值转为对应的值，超过一个值返回NaN
+
+
+        console.log(!!'a')  //转为布尔值
+
+        console.log({}+{}) //[object object][object object]
+        console.log(1+[2]) //12  [2]转为字符串
+        console.log(1+true)  //2  true转为数值
+        
+    </script>
+
+</body>
+
+</html>

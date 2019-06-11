@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        var a = 3;
+        console.log(a++ + a++) //7
+        console.log(a) //5
+        //this就是属性或方法“当前”所在的对象
+
+        //this的使用场所
+        //1.全局环境，全局环境使用this，this指向window
+        this === window // true
+        function f() {
+            console.log(this === window);
+        }
+        f() // true
+        //2.构造函数，构造函数中的this指向实例对象
+        var Obj = function (p) {
+            this.p = p;
+        };
+        var o = new Obj('Hello World!');
+        o.p // "Hello World!"
+
+        //3.对象的方法
+        var obj = {
+            foo: function () {
+                console.log(this);
+            }
+        };
+
+        obj.foo() // obj
+
+
+
+        var o = {
+            v: 'hello',
+            p: ['a1', 'a2'],
+            f: function f() {
+                var that = this;
+                this.p.forEach(function (item) {
+                    console.log(that.v + ' ' + item);
+                });
+            }
+        }
+
+        o.f()  //hello a1
+        // hello a2
+
+        //改变this指向
+        //call
+        var n = 123;
+        var oobj = {
+            n: 234
+        }
+        function example() {
+            console.log(this.n)
+        }
+        //如果call方法没有参数，或者参数为null或undefined，则等同于指向全局对象。
+        example.call(oobj) //234
+        example.call() //123
+        example()//123 
+        //func.call(thisValue, arg1, arg2, ...)
+        //第一个参数是this指向的那个对象，后面的参数是函数调用时所需的参数
+        function add(m, n) {
+            return m + n;
+        }
+        console.log(add.call(this, 1, 2))   //3
+        //call方法的一个应用是调用对象的原生方法。
+
+        Object.prototype.hasOwnProperty.call(obj, 'toString') // false
+
+        //apply
+        //func.apply(thisValue, [arg1, arg2, ...])
+        //第一个参数是this指向的对象，第二个参数是一个数组，数组成员依次作为参数
+        var num1 = 12;
+        var num2 = 13;
+        var numobj = {
+            num1: 12,
+            num2: 18
+        }
+        function addf() {
+            console.log(this.num1 + this.num2)
+        }
+        addf.apply(numobj)  //30
+
+        //apply的应用，找出最大值,Math.max
+        var array = [12, 2, 45, 23, 67, 8, 99];
+        console.log(array)
+        console.log(...array)
+        var s = [...array]
+        console.log(s)
+
+        var max1 = Math.max.apply(null, array);
+        console.log(max1) //99
+        console.log(Math.max(...array))//99
+
+       //将数组作为函数参数
+        // ES5 的写法
+        function f(x, y, z) {
+            // ...
+        }
+        var args = [0, 1, 2];
+        f.apply(null, args);
+
+        // ES6 的写法
+        function f(x, y, z) {
+            // ...
+        }
+        var args = [0, 1, 2];
+        f(...args)
+
+        //将数组空元素变为undefined,数组的forEach方法回跳过空元素，不会跳过undefined
+        var arr2=['a',,'b']
+        arr2.forEach((item,index)=>{
+            console.log(item,index)   //a 0     b 2 
+        })
+
+        Array.apply(null,arr2).forEach((item,index)=>{
+            console.log(item,index)  // a 0  undefined 1   b 2
+        })
+
+       //将伪数组转为数组
+
+      function argsss(n1,n2,n3,n4){
+          var arrr=Array.from(arguments);  //es6 伪数组转数组
+          console.log(arrr)
+          console.log(arguments);
+          var newarr=Array.prototype.slice.apply(arguments);
+          console.log(newarr)
+          var newarr2=newarr.push(5);
+          console.log(newarr)
+
+      }
+      argsss(1,2,3,4)
+      //call和apply会立即执行函数
+
+      //bind  参数与call一致
+      //bind方法用于将函数体内的this绑定到某个对象，然后返回一个新函数。
+      var counter={
+          conunt:0,
+          inc:function(){
+              this.conunt++;
+              console.log(this.conunt)
+          }
+      }
+      var func=counter.inc.bind(counter);  //不执行函数
+      func();   //1
+      counter.inc.call(counter)  //2 函数执行
+
+
+      var array_slice=[1,2,3];
+      var new_slice=array_slice.slice();  //深拷贝一个数组
+      new_slice.push(4)
+      console.log(array_slice) 
+      console.log(new_slice)   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>

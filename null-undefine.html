@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+
+        console.log(null==undefined)  //true
+        console.log(null===undefined)  //false
+        console.log(0==false)  //true
+        console.log(''==false)  //true
+              
+        if(!null){
+            console.log('aaa');
+        }
+        if(!undefined){
+            console.log('bbb');
+        }
+        console.log(Number(null)) //0 
+        console.log(Number(undefined)) //NaN
+
+        console.log(0xff)  //自动转换为十进制255
+
+        /*--NaN--*/
+        console.log(Boolean(NaN))  //false
+        console.log(0/0);  //NaN
+        console.log(5-'x');  //NaN
+        console.log(5-'2222');  //自动将字符转为数字
+        console.log(NaN===NaN)  //false
+        console.log(NaN=='x')
+
+        /*--infinity--*/
+        console.log(1/0);//Infinity
+        console.log(0/1);//0
+        console.log(Infinity==-Infinity)//false
+        /*isNaN()*/
+        console.log(Number([]))  //0
+        console.log(isNaN(Number([]))) //false
+        console.log(Number(['12']))
+        
+    </script>
+    
+</body>
+</html>

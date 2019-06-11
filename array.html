@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    console.log(typeof null) //object
+    console.log(typeof [1, 2, 3]) //object 
+    console.log(typeof Array) //function
+    console.log(typeof undefined) //undefined
+
+
+    var array = [0, 1, 2, 3, 4];
+    console.log(Object.keys(array)) //显示数组中的所有键名，数值自动转换为字符串
+    array.length = 0; //设置数组的length删除数组
+    console.log(array);
+
+    console.log(Array.isArray(array)) //判断是否是数组
+
+
+    //数组的方法
+    var arr = [1, 2, 3];
+    console.log(arr.valueOf()) //返回数组本身  [1,2,3] 
+    console.log(arr)
+    console.log(arr.toString()) //返回数组的字符串 1,2,3,原数组不变
+    console.log(arr)
+    console.log(arr.push(4)) //返回push的数字,改变原数组  4
+    console.log(arr) //push后的数组  [1,2,3,4]
+    console.log(arr.pop()) //返回pop数组最后一个元素，改变原数组 4
+    console.log(arr) //返回pop后的数组 [1,2,3]
+    console.log(arr.shift()) //删除数组的第一个元素，返回删除的第一个元素，改变原数组  1
+    console.log(arr) //[2,3]
+    console.log(arr.unshift(1, 4, 7, 8, 9)) //7   在数组的第一个位置添加元素，返回添加后数组的长度，改变原数组
+    console.log(arr) //[1,4,7,8,9,2,3]
+    console.log(arr.join('')); //1478923   以指定参数为分隔符，将所有数组成员连接为一个字符串，没有参数默认以逗号分隔,原数组不改编版
+    console.log(arr);
+
+
+    console.log(Array.prototype.join.call('hello', '-')) //字符串
+    console.log(Array.prototype.join.call({
+      0: 'a',
+      1: 'b',
+      length: 2
+    }, '-')) //类似数组的对象
+
+    console.log('------------------')
+    console.log(arr.concat(11, 22)) //返回拼接后的数组，不改变原数组  [1, 4, 7, 8, 9, 2, 3, 11, 22]
+    console.log(arr.concat([33, 44])) //返回拼接后的数组，不改变原数组  [1, 4, 7, 8, 9, 2, 3, 33, 44]
+    console.log(arr.concat('xixi')) //返回拼接后的数组，不改变原数组  [1, 4, 7, 8, 9, 2, 3, 'xixi']
+    console.log(arr) //[1, 4, 7, 8, 9, 2, 3]
+
+
+    console.log(arr.reverse()) //颠倒排列数组，改变原数组 [3, 2, 9, 8, 7, 4, 1]
+    console.log(arr) // [3, 2, 9, 8, 7, 4, 1]
+
+
+    console.log('---------------')
+
+    console.log(arr.slice()) //拷贝一个数组[3, 2, 9, 8, 7, 4, 1]
+    console.log(arr.slice(1, 3)) //[2,9]   提取数组的一部分，不改变原数组
+    console.log(arr.slice(-1)) // 倒数截取一个数
+    console.log(arr)
+    console.log(arr.slice(-2)) // 倒数截取两个个数
+    console.log(arr) //[3, 2, 9, 8, 7, 4, 1]
+    //如果第一个参数大于等于数组长度，或者第二个参数小于第一个参数，则返回空数组。
+
+    console.log('---------------')
+
+    console.log(arr.splice(0, 2)) //删除原数组的一部分，返回删除的元素，改变原数组  [3, 2]
+    console.log(arr) // [9, 8, 7, 4, 1]
+    console.log(arr.splice(2, 2, 12, 14, 16)) // [7, 4]   在删除的位置插入12,14,16
+    console.log(arr) //[9, 8, 12, 14, 16, 1]
+    console.log(arr.splice(-2, 2)) //[16, 1]
+    console.log(arr) //[9, 8, 12, 14]
+    console.log(arr.splice(1, 0, 4, 7, 6))
+    console.log(arr) //[9, 4, 7, 6, 8, 12, 14]
+
+    console.log('---------------')
+    // console.log(arr.sort())  // [12, 14, 4, 6, 7, 8, 9]按照字典顺序排序
+    console.log(arr) // 改变原数组，排序后的数组
+
+    arr.sort(function (a, b) {
+      // return a-b   //从小到大排序  返回值大于0，第一个数放在第二个数后面，其他情况都是第一个元素放在第二个元素前面
+      return b - a //从大到小排序
+
+    })
+    console.log(arr)
+
+    //根据对象中的某个属性值排序
+
+    var gamescore = [{
+      name: 'zhangsan',
+      score: 100
+    }, {
+      name: 'lisi',
+      score: 130
+    }, {
+      name: 'wangwu',
+      score: 60
+    }, {
+      name: 'zhaoliu',
+      score: 20
+    }]
+    gamescore.sort(function (p1, p2) {
+      return p1.score - p2.score;
+
+    })
+    console.log(gamescore) 
+    //{name: "zhaoliu", score: 20}
+    // 1: {name: "wangwu", score: 60}
+    // 2: {name: "zhangsan", score: 100}
+    // 3: {name: "lisi", score: 130}
+  </script>
+</body>
+
+</html>

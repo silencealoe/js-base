@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #mydiv{
+            width:200px;
+            height:200px;
+            background: pink;
+        }
+    </style>
+</head>
+<body>
+    <div id="mydiv" style="border:1px solid black"></div>
+    <script>
+        /*getComputedStyle ---DOM2*/
+        var mydiv=document.getElementById('mydiv');
+        var sty=document.defaultView.getComputedStyle(mydiv, null); //接收两个参数，第一个参数是要取得计算样式的元素，第二个参数是伪元素字符串，不需要伪元素可以写null
+        console.log(sty.width)   //获取到style标签内的样式，获取不到行内样式 
+        console.log(mydiv.style.width) //获取不到style标签内的样式，可以获取的行内样式
+    
+   </script>
+    
+</body>
+</html>

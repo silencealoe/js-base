@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function add(x, y) {
+            return x + y;
+        }
+        //将函数作为参数和返回值
+        function a(op) {
+            return op;
+        }
+        var r = a(add)(1, 2);
+        console.log(r);
+
+
+        //reduce方法
+        /*
+           接受两个参数，回调函数和初始值，计算数组和
+           
+           对数组的每个元素执行回调，
+
+        */
+        var arr_1 = [1, 3, 4, 5, 7];
+        var newarr_1 = arr_1.reduce((pre, cur) => {
+            return pre + cur;
+        }, 20)
+        console.log(newarr_1)
+
+
+        //filter方法
+        /*
+          过滤出指定的值
+         */
+        var arr_2 = [
+            {
+                type: 'student',
+                name: 'xiaoming',
+                age: 20
+            }, {
+                type: 'teacher',
+                name: 'xiaohong',
+                age: 20
+            }, {
+                type: 'teacher',
+                name: 'xiaolan',
+                age: 19
+            }
+        ]
+        var newarr_2 = arr_2.filter(item => {
+            return item.age === 20 && item.type === 'student'
+        })
+        console.log(newarr_2)
+
+
+        //map方法
+        /*
+          遍历数组
+        */
+
+        var arr_3 = [2, 3, 4, 7, 8, 12, 34];
+        arr_3.map(item => {
+            console.log(item)
+        })
+
+        console.log(Math.random().toString) //查看函数源码
+
+
+        //函数的变量
+        var i = 1;
+        function func(i) {
+
+            return function () {
+                i++;     //变量一直存在内存中，不回收
+                console.log(i)
+            }
+        }
+        var r = func(i);
+        var re = func(i);
+        r() //2
+        r()  //3
+        r()  //4
+        re() //2
+
+        //函数自身的作用域,作用域是声明时的作用域，与运行作用域无关
+        var te = 2;
+        function fun() {
+            console.log(te);
+        }
+        function oth() {
+            var te = 3;
+            fun();  //2
+
+        }
+        oth()
+
+        //arguments对象，函数参数数目不定，可以在函数内部读取参数
+
+        function testArgu(a,b){
+            'use strict';   //严格模式下无法修改参数值
+            console.log(arguments[2]);  //3    第三个参数
+            //参数可以通过arguments来修改
+            arguments[0]=4;
+            console.log(a+b)
+
+
+        }
+
+        testArgu(1,2,3)
+
+
+
+        //闭包
+        //闭包造成内存泄漏的原因？
+         function outer(){
+              var a=10;
+              console.log('outer',a);
+              function inner(){
+                  console.log('inner',a);
+              }
+              return inner
+         }
+
+        var innerFun= outer();
+        innerFun();
+
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>
