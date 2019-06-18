@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        Boolean(undefined) // false
+        Boolean(null) // false
+        Boolean(0) // false
+        Boolean('') // false
+        Boolean(NaN) // false
+
+        Boolean(1) // true
+        Boolean('false') // true
+        Boolean([]) // true
+        Boolean({}) // true
+        Boolean(function () {}) // true
+        Boolean(/foo/) // true
+
+            // 使用双重的否运算符（!）也可以将任意值转为对应的布尔值。
+
+            !!undefined // false
+            !!null // false
+            !!0 // false
+            !!'' // false
+            !!NaN // false
+
+            !!1 // true
+            !!'false' // true
+            !![] // true
+            !!{} // true
+            !! function () {} // true
+            !!/foo/ // true
+    </script>
+</body>
+
+</html>

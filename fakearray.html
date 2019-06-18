@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <ul>
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+        <li>5</li>
+    </ul> 
+    <script>
+        var lis=document.querySelectorAll('li');
+        console.log(lis)
+        // //方法一  Array.prototype.slice.call(lis)
+        // var newarr=Array.prototype.slice.call(lis);   
+        // console.log(newarr)
+        // console.log(newarr.pop())
+        // //方法二 Array.from(lis)
+        // var newarr2=Array.from(lis);
+        // console.log(newarr2)
+        // console.log(newarr2.slice(0,1));
+        // console.log(newarr2.slice(1,2));
+        // var arr=[1,2,3,4];
+        // console.log(arr.slice(0,1)) //返回提取的数组，不改变原数组
+        // console.log(arr.slice(1,2))
+        // //方法三 循环遍历
+        // var newarr3=[];
+        // for(var i=0;i<lis.length;i++){
+        //     newarr3[i]=lis[i]
+        // }
+        // console.log(newarr3.splice(0,2))   //返回删除的数组，改变原数组
+
+        //方法四  原型继承
+
+        lis.__proto__=Array.prototype;
+        lis.constructor===Array
+
+        console.log(lis.pop())
+
+
+
+    </script>
+    
+</body>
+</html>

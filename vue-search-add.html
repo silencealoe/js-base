@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .input-style {
+            width: 200px;
+            height: 30px;
+            border-radius: 10px;
+            border: 1px solid deepskyblue;
+            outline: none;
+            text-indent: 2em;
+
+        }
+
+        .button-style {
+            width: 120px;
+            height: 30px;
+            background: deepskyblue;
+            border: none;
+            border-radius: 10px;
+            color: white;
+            cursor: pointer;
+
+        }
+
+        li {
+            list-style: none;
+        }
+
+        .content-list {
+            border: 1px solid black;
+
+        }
+
+        .content-item {
+            height: 30px;
+
+            display: flex;
+        }
+
+        td,
+        th {
+            min-width: 100px;
+            text-align: center;
+            border-bottom: 1px solid deepskyblue;
+        }
+
+        tr {
+            height: 40px;
+
+        }
+
+        table {
+            border-spacing: 0;
+        }
+
+        p {
+            width: 400px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="app">
+        <div class="head">
+            <label>
+                ID：
+                <input type="text" class="input-style" v-model="id">
+            </label>
+            <label>
+                姓名：
+                <input type="text" class="input-style" v-model="name">
+            </label>
+
+            <button class="button-style" @click="handleAdd">添加</button>
+            <label>
+                <input type="text" class="input-style" v-model="keyword" placeholder="输入关键字搜索">
+            </label>
+      
+
+        </div>
+        <div class="content">
+            <table>
+                <tr>
+                    <th>序号</th>
+                    <th>姓名</th>
+                    <th>时间</th>
+                </tr>
+                <tr v-for="data in handleSearch(keyword)">
+                    <td>{{data.id}}</td>
+                    <td>{{data.name}}</td>
+                    <td>{{data.time | timeope}}</td>
+                </tr>
+            </table>
+            <p v-show="isShow">没有找到结果~~~</p>
+        </div>
+
+
+
+    </div>
+    <script src="./vuejs/vue.js"></script>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                id: null,
+                name: null,
+                keyword: null,
+                isShow: false,
+                datalist: [{
+                    id: 1,
+                    name: '张三',
+                    time: new Date()
+                }, {
+                    id: 2,
+                    name: '小王',
+                    time: new Date()
+                }]
+            },
+            methods: {
+                handleAdd() {
+                    console.log(this.id)
+                    var dataobj = {
+                        id: null,
+                        name: null,
+                        time: null
+                    }
+                    dataobj.id = this.id;
+                    dataobj.name = this.name;
+                    dataobj.time = new Date()
+                    this.datalist.push(dataobj)
+                },
+                handleSearch(keyword) {
+                    if(this.isShow) this.isShow=false;
+                    console.log(keyword)
+                    var newlist = [];
+                    if (keyword === null) {
+                        
+                        return this.datalist;
+                    }
+                   this.datalist.filter((item) => {
+                        if (item.name.includes(keyword)) {
+                            newlist.push(item)
+                        }
+    
+                        return newlist
+                    })
+                    if(newlist.length===0) this.isShow=true
+    
+                    return newlist;
+                  
+                     
+
+                }
+
+            },
+            filters: {
+                timeope: function (datastr) {
+                    console.log(datastr)
+                    var dt = new Date(datastr);
+                    var y = dt.getFullYear();
+                    var m = dt.getMonth() + 1;
+                    var d = dt.getDate();
+                    var hh = dt.getHours().toString().padStart(2, '0');
+                    var mm = dt.getMinutes().toString().padStart(2, '0');
+                    var ss = dt.getSeconds().toString().padStart(2, '0');
+                    console.log(typeof hh)
+                    return `${y}-${m}-${d} ${hh}:${mm}:${ss}`
+
+                }
+            }
+
+        })
+    </script>
+
+</body>
+
+</html>
