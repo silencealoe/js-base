@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        var a = [];
+        for (var i = 0; i < 10; i++) {
+            a[i] = function () {
+                console.log(i);
+            };
+
+        }
+        // test(2); // 10
+        console.log(i) //10
+        a[6]() //10
+        for (let i = 0; i < 10; i++) {
+            a[i] = function () {
+                console.log(i);
+            };
+
+        }
+        a[3]() //3
+
+        // //let  块级作用域，无变量声明提升，在代码块内，使用let命令声明变量之前，该变量都是不可用的。这在语法上，称为“暂时性死区”
+        // function bar(x = y, y = 2) { //y没有声明 报错
+        //     return [x, y]
+        // }
+        // bar()
+
+        //let不允许重复声明同一个变量,不能在函数内部重复声明参数
+
+        function fun() {
+            //  let a=10;  //报错
+            var a = 2;
+            //  let a=3;  
+        }
+        fun()
+
+        //块级作用域
+
+        var temp = "abc";
+
+        function f() {
+            console.log(temp) //undefined
+            if (false) {
+                var temp = "hello" //函数内变量声明提升覆盖全局变量声明
+            }
+        }
+        f()
+
+        for (var i = 0; i < 10; i++) {
+            console.log(i)
+        }
+        console.log(i)
+
+        //内层代码块不受外层代码块的影响
+
+        function f1() {
+            let n = 9; //外层块级
+            if (true) {
+                let n = 3 //内层块级
+            }
+            console.log(n)
+        }
+        f1() //9
+        //内层作用域可以定义外层作用域的同名变量。
+
+
+
+        // //const  声明一个只读常量，常量的值不能改变
+        // const PI = 3.1415;
+        // PI // 3.1415
+
+        // PI = 3; //报错
+        // TypeError: Assignment to constant variable.
+        //const 一旦声明变量，就必须立即初始化，不能在之后赋值，只声明不赋值会报错
+
+
+        function f2(){
+            {
+                let a =1;
+                return a
+            }
+            var a=2; 
+            console.log(a)
+        }
+       console.log(f2())   //1
+    </script>
+
+</body>
+
+</html>
