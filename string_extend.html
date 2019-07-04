@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="box">
+        
+    </div>
+    
+    <script src="./jquery/jquery-3.4.1.min.js"></script>
+    <script>
+        //Unicode  所有字符对应的数字 UTF-8 和 UTF-16 两种当前比较流行的编码方式
+
+        //字符的unicode表示法，采用\uxxxx形式表示一个字符  其中xxxx表示字符的 Unicode 码点。
+
+        //字符串遍历
+        var string='happy'
+        console.log(string.length)
+        console.log(string[2])
+
+        for(var i of string){
+            console.log(i)
+        }
+
+        //模板字符串
+        $('#box').html(`
+
+        <ul>
+            <li>11</li>
+            </ul>  
+        `)
+
+        //模板字符串中的 大括号内部可以放入任意的 JavaScript 表达式，可以进行运算，以及引用对象属性,调用函数
+
+        function func(){
+            return 'hahah'
+        }
+
+        console.log(`xixi ${func()} heheh`)
+
+        //标签模板
+       var arr=[1,2,3]
+        function sum(arr){
+         var s=arr.reduce((a,b)=>{
+              return a+b;
+           })
+           console.log(s)
+        }
+        sum(arr)
+
+      function tagtemp(a){
+          console.log(a)
+      }
+
+      tagtemp `hello`
+
+
+      //字符串新增方法
+      // String.fromCodePoint() 从unicode码点返回对应字符
+      console.log(String.fromCodePoint(0x20BB))
+
+       
+    
+
+            
+    </script>
+    
+</body>
+</html>

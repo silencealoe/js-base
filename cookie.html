@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .login {
+            width: 420px;
+            height: 200px;
+            background: rgba(0, 0, 0, .5);
+            border: 1px solid black;
+            margin: 100px auto;
+            border-radius: 20px;
+        }
+
+        h1 {
+            color: white;
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: 100;
+        }
+
+        p {
+            color: white;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        span {
+            visibility: hidden;
+        }
+
+        input[type="password"] {
+            width: 200px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login">
+        <h1>登录</h1>
+        <p>
+            用户名：<input type="text" id="username" placeholder="用户名不能包含不规则字符">
+            <span id="nameerr">用户名不合法</span>
+        </p>
+        <p>
+            密 码：<input type="password" id="ps" placeholder="密码大于6位">
+            <span id="pserr">密码不合法</span>
+        </p>
+        <p>
+            <button id="sub">提交</button>
+            <input type="checkbox" id="checkit">7天内免登录
+        </p>
+        <p id="islogin"></p>
+
+
+    </div>
+    <script>
+        //cookie是服务器保存在浏览器的一小段文本信息，每个cookie的大小一般不超过4kb，浏览器每次向服务器发出请求，会自动附上这段信息
+        //cookie的作用，
+        //分辨两个请求是否来自同一个浏览器，保存一些状态信息
+        //保存登录，购物车等需要记录的信息
+        //记录和分析用户的行为
+        //客户端储存应该使用 Web storage API 和 IndexedDB。
+
+        //cookie的属性
+        //Expire 具体的到期时间 ，UTC格式
+        //Max-age 从现在开始cookie存在的秒数，过了这个时间，浏览器不再保留cookie
+        //同时设置 Expire和Max-age ，Max-age优先生效
+        //如果没有设置这两个属性，关闭浏览器（不是关闭当前窗口），cookie失效
+
+        //Domain 属性指定浏览器发出HTTP请求时，哪些域名要附带这个Cookie,如果没有指定该属性，浏览器会默认将其设为当前域名，这时子域名将不会附带这个 Cookie
+        //Path  哪些路径要附带这个cookie 
+
+        //Secure属性指定浏览器只有在加密协议 HTTPS 下，才能将这个 Cookie 发送到服务器.如果当前协议是 HTTP，浏览器会自动忽略服务器发来的Secure属性。该属性只是一个开关，不需要指定值。如果通信是 HTTPS 协议，该开关自动打开。
+        //HttpOnly属性指定该 Cookie 无法通过 JavaScript 脚本拿到
+
+
+        //存cookie
+        // document.cookie="username=xiaoming;max-age=60*60"
+        // document.cookie="password=123456"
+        // var cookies=document.cookie
+        // console.log(cookies)
+        var inpt = document.getElementById('username');
+        var ps = document.getElementById('ps');
+        var sub = document.getElementById('sub');
+        var nameerror = document.getElementById('nameerr');
+        var pserror = document.getElementById('pserr');
+        var check = document.getElementById('checkit');
+        var islogin = document.getElementById('islogin');
+        window.onload=function(){
+            var cookies=document.cookie
+            if(cookies){
+               islogin.innerHTML='已登录'
+            }
+        }
+
+        sub.onclick = function () {
+            console.log(check.checked)
+            console.log('aaa');
+            var username = inpt.value
+            var password = ps.value
+            var userRe = /[^\s\\]/
+            var psRe = /\d{6,12}/
+            var re = userRe.test(username);
+            var rs = psRe.test(password)
+            var isCheck = check.checked;
+            console.log(rs)
+            if (!re) {
+                console.log('ccc')
+                nameerror.style.visibility = 'visible'
+            } else if (!rs) {
+                pserror.style.visibility = 'visible'
+            } else {
+                if (isCheck) {
+                    document.cookie = "username=" + username+';color=red;max-age=36000'
+
+                } else {
+                    document.cookie = "username=" + username
+
+                }
+
+
+            }
+
+
+
+
+        }
+    </script>
+</body>
+
+</html>
