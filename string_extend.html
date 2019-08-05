@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
 </head>
+
 <body>
     <div id="box">
-        
     </div>
-    
+    <h1 id="date"></h1>
+    <h2 id="count"></h2>
+
     <script src="./jquery/jquery-3.4.1.min.js"></script>
     <script>
         //Unicode  所有字符对应的数字 UTF-8 和 UTF-16 两种当前比较流行的编码方式
@@ -18,11 +21,11 @@
         //字符的unicode表示法，采用\uxxxx形式表示一个字符  其中xxxx表示字符的 Unicode 码点。
 
         //字符串遍历
-        var string='happy'
+        var string = 'happy'
         console.log(string.length)
         console.log(string[2])
 
-        for(var i of string){
+        for (var i of string) {
             console.log(i)
         }
 
@@ -36,38 +39,113 @@
 
         //模板字符串中的 大括号内部可以放入任意的 JavaScript 表达式，可以进行运算，以及引用对象属性,调用函数
 
-        function func(){
+        function func() {
             return 'hahah'
         }
 
-        console.log(`xixi ${func()} heheh`)
+        console.log(`xixi ${func()} heheh`)  //xixi hahah heheh
 
         //标签模板
-       var arr=[1,2,3]
-        function sum(arr){
-         var s=arr.reduce((a,b)=>{
-              return a+b;
-           })
-           console.log(s)
+        var arr = [1, 2, 3]
+
+        function sum(arr) {
+            var s = arr.reduce((a, b) => {
+                return a + b;
+            })
+            console.log(s)
         }
         sum(arr)
 
-      function tagtemp(a){
-          console.log(a)
-      }
+        function tagtemp(a) {
+            console.log(a)
+        }
 
-      tagtemp `hello`
+        tagtemp `hello`  //函数调用传参
 
 
-      //字符串新增方法
-      // String.fromCodePoint() 从unicode码点返回对应字符
-      console.log(String.fromCodePoint(0x20BB))
+        //字符串新增方法
+        // String.fromCodePoint() 从unicode码点返回对应字符
+        console.log(String.fromCodePoint(0x20BB))
 
+        //String.raw()  
+
+        //字符串实例的normalize()方法 将字符的不同表示方法统一
+        '\u01D1'.normalize() === '\u004F\u030C'.normalize()
+
+        //确定一个字符串是否包含在另一个字符串中
+        var s1 = 'hello i am xixi'
+        console.log(s1.includes('i')) //true
+        console.log(s1.endsWith('xi')) //true
+        console.log(s1.startsWith('xi')) //false
+        //这三个方法都支持第二个参数，表示开始搜索的位置。
+
+        console.log(s1.includes('m', 12)) //false 从第12个字符开始查找
+        console.log(s1.startsWith('m', 9)) //true 从第9个字符开始查找,以m开始
+        console.log(s1.endsWith('lo', 5)) //true   前五个字符以 lo 结束 
+
+        //repeat方法返回一个新字符串，表示将原字符串重复n次。
+        //参数如果是小数，会取下整，参数是0到-1之间的小数，则等于0
+        //参数NaN等于0，参数是字符串，先转为数字
+
+        console.log('xixi'.repeat(2)) //xixixixi
+        console.log('haha'.repeat(0)) //" "
+
+        //    引入了字符串补全长度的功能。如果某个字符串不够指定长度，会在头部或尾部补全。padStart()用于头部补全，padEnd()用于尾部补全。
+        // padStart()和padEnd()一共接受两个参数，第一个参数是字符串补全生效的最大长度，第二个参数是用来补全的字符串
+
+        //字符串补全长度，
+        //实例方法：padStart()，padEnd() 
+        //如果省略第二个参数，默认使用空格补全长度。
+        //padStart()的常见用途是为数值补全指定位数。下面代码生成 10 位的数值字符串。 
+        //提示字符串格式、
+       console.log( '07-12'.padStart(10,'yyyy-mm-dd'))
+       console.log( '12'.padStart(10,'yyyy-mm-dd'))
+       console.log( '12'.padStart(10,'yyyy-mm-dd'))
+       function getDate(){
+        var date = new Date();
+        var year = date.getFullYear();
+        var month = (date.getMonth()+1).toString().padStart(2, '0');
+        var day = date.getDate().toString().padStart(2, '0');
+        var week = date.getDay();
+        var hour = date.getHours().toString().padStart(2, '0');
+        var minute = date.getMinutes().toString().padStart(2, '0');
+        var second = date.getSeconds().toString().padStart(2, '0');
+        var weekday = ['日', '一', '二', '三', '四', '五', '六'];
+        return `${year}年${month}月${day}日   星期${weekday[week]} ${hour}:${minute}:${second}`
+       }
        
-    
 
-            
-    </script>
+    setInterval(function(){
+    document.querySelector('#date').innerHTML=getDate()
+    document.querySelector('#count').innerHTML=countTime()
+    },1000)
+  
+  //倒计时
+    function countTime(){
+        var date=new Date();
+        var nowyear=date.getFullYear();
+        var nowmonth=date.getMonth();
+        var nowday=date.getDate();
+        var now=date.getTime();
+        console.log(nowmonth)
+        var endTime= new Date(`${nowyear}/${nowmonth+1}/${nowday} 17:30:00`)
+        var end=endTime.getTime();
+        var left=end-now;
+        var dishour=Math.floor(left/1000/60/60).toString().padStart(2,'0')
+        var disminute=Math.floor(left/1000/60%60).toString().padStart(2,'0')
+        var dissecond=Math.floor(left/1000%60).toString().padStart(2,'0')
     
+        return `距离下班还有${dishour}时${disminute}分${dissecond}秒`
+    }
+
+//ES2019 对字符串实例新增了trimStart()和trimEnd()这两个方法。它们的行为与trim()一致，trimStart()消除字符串头部的空格，trimEnd()消除尾部的空格。它们返回的都是新字符串，不会修改原始字符串。
+  var s2=' i am hehe ';
+  console.log(s2)
+  console.log(s2.trimStart())    
+  console.log(s2.trimEnd())    
+        
+    </script>
+
 </body>
+
 </html>

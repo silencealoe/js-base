@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .commentitem{
+            display: flex;
+            border:1px solid gray;
+            border-radius: 5px;
+            width:800px;
+            height:60px;
+            margin-bottom: 20px;
+            text-align: center;
+            line-height: 60px;
+        }
+        .user{
+            flex: 1;
+            background: pink;
+        }
+        .comment{
+            flex: 5;
+        }
+        .txtinput{
+            width:300px;
+        }
+        .edit{
+            flex: 1;
+            cursor: pointer;
+        }
+        .txtinput textarea{
+              display: block;
+              width:100%;
+              height: 100px;
+        }
+    </style>
+</head>
+<body>
+
+    <template id="com">
+        <div class="txtinput">
+            <textarea ref="txt" v-text="totxt" @keypress.enter="handleClick()">123</textarea>
+            <button @click="handleClick()" >发表</button>
+        </div>
+
+    </template>
+    <div id="app">
+        <Mycomment @fromchild="contents" :totxt="tochild"></Mycomment>
+        <ul>
+             <li class="commentitem" v-for="item in commentlist" :id="item.id">
+                 <div class="user">{{item.user}}</div>
+                 <div class="comment">{{item.comment}}</div>
+                 <div class="edit" @click="handleEdit(item.comment)">编辑</div>
+             </li>
+         </ul>
+
+
+    </div>
+    <script src="./vuejs/vue.js"></script>
+    <script>
+         Vue.component('Mycomment',{
+             props:['totxt'],
+             template:'#com',
+             data(){
+                 return{
+                     content:'none'
+                 }
+             },
+             methods:{
+                 handleClick(){
+                     console.log(this.$refs.txt.value)
+                     this.$emit('fromchild',this.$refs.txt.value)
+                 }
+             },
+             beforeUpdate(){
+                // this.$refs.txt.value=this.totxt;
+             }
+         })
+
+        new Vue({
+            el:'#app',
+            data:{
+                commentlist:[{user:'brown',comment:'i love cony',id:new Date()}],
+                tochild:null
+            },
+            methods:{
+                contents(e){
+                    var newcomment={
+                        user:'我',
+                        comment:e,
+                        id:new Date()
+                    }
+                    this.commentlist.unshift(newcomment)
+                    localStorage.setItem('comments',JSON.stringify(this.commentlist));
+                },
+                handleEdit(text){
+                    console.log(text)
+                    this.tochild=text;
+
+                }
+            },
+            beforeMount(){
+                this.commentlist=JSON.parse(localStorage.getItem('comments'));
+                console.log(this.commentlist)
+            },
+            beforeUpdate(){
+                this.commentlist=JSON.parse(localStorage.getItem('comments'));
+            }
+        })
+    </script>
+</body>
+</html>

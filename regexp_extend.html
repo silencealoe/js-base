@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //es6中允许RegExp构造函数第一个参数是一个正则对象，第二个参数指定修饰符，返回的正则表达式会忽略原有的正则表达式的修饰符，只使用新指定的修饰符。
+        console.log(new RegExp(/abc/ig, 'iy').flags)   //iy flags属性查看正则表达式使用的修饰符
+
+        //字符串的正则方法 ，match(),replace(),split(),search()
+
+        //添加 U修饰符 ,表示Unicode模式 正确处理四个字节的UTF-16编码
+        // /^\uD83D/u.test('\uD83D\uDC2A') // false
+    //    /^\uD83D/.test('\uD83D\uDC2A') // true
+        //\uD83D\uDC2A是一个四个字节的 UTF-16 编码，代表一个字符。但是，ES5 不支持四个字节的 UTF-16 编码，会将其识别为两个字符，导致第二行代码结果为true。加了u修饰符以后，ES6 就会识别其为一个字符，所以第一行代码结果为false。
+
+        //点字符（.） 码点大于0XFFFF的unicode字符，点字符不能识别，必须加上u修饰符
+        var s = '𠮷';
+
+        /^.$/.test(s) // false
+        // /^.$/u.test(s) // true 
+
+        //Unicode 字符表示法
+        // /\u{61}/.test('a') // false  不加U会认为匹配61个u
+        // /\u{61}/u.test('a') // true  
+        // /\u{20BB7}/u.test('𠮷') // true
+
+        //量词 
+        //使用u修饰符后，所有量词都会正确识别码点大于0xFFFF的 Unicode 字符。
+        // /a{2}/.test('aa') // true
+        // /a{2}/u.test('aa') // true
+        // /𠮷{2}/.test('𠮷𠮷') // false
+        // /𠮷{2}/u.test('𠮷𠮷') // true
+
+        var s1="𠮷𠮷"  
+        console.log(s1.length)  //4
+        var re=s1.match(/[\s\S]/gu);
+        console.log(re) 
+        console.log(re.length)  //2
+       
+       //RegExp.prototype.unicode 属性 表示是否设置了u修饰符
+
+       //y修饰符
+        //y修饰符的作用与g修饰符类似，也是全局匹配，后一次匹配都从上一次匹配成功的下一个位置开始。不同之处在于，g修饰符只要剩余位置中存在匹配就可，而y修饰符确保匹配必须从剩余的第一个位置开始，这也就是“粘连”的涵义。
+        var s = 'aaa_aa_a';
+        var r1 = /a+/g;
+        var r2 = /a+/y;
+
+        r1.exec(s) // ["aaa"]
+        r2.exec(s) // ["aaa"]
+
+        r1.exec(s) // ["aa"]
+        r2.exec(s) // null
+
+        // /b/y.exec('aba') //null
+        console.log(/b/y.exec('bsa'))
+
+        console.log('aaxa'.replace(/a/yg,'*'));  //**xa
+
+        //RegExp.prototype.sticky 属性 表示是否设置了y修饰符。
+
+        // ES5 的 source 属性
+        // 返回正则表达式的正文
+        /abc/ig.source
+        // "abc"
+
+        // ES6 的 flags 属性
+        // 返回正则表达式的修饰符
+        // /abc/ig.flags
+        // 'gi'
+        
+        // s修饰符 ES2018 引入s修饰符，使得.可以匹配任意单个字符。
+
+        console.log(/foo.bar/.test('foo\nbar'))  //false  .点字符不匹配空字符
+        console.log(/foo.bar/s.test('foo\nbar'))  //true  s修饰符匹配任意字符
+
+        //先行断言：x只有在y前面才匹配，必须写成/x(?=y)/，
+        console.log(/\d+(?=%)/.exec('20% is student'))  //["20"] 匹配%前面的数字
+        //先行否定断言：x只有不在y前面才能匹配，必须写成/x(?!y)/
+        console.log(/\d+(?!%)/.exec('there is 25 people,and 24% is student'));  // ["25"] 匹配不在%前面的数字
+        //后行断言：x只有在y后面才匹配，必须写成/(?<=y)x/
+        console.log(/(?<=\$)\d+/.exec('the apple is $5'))   //['5']
+        //后行否定断言：x只有不在y后面才能匹配，必须写成/(?<!y)x/
+        console.log(/(?<!\$)\d+/.exec('the apple is $5,there are 10'))   //['10']
+
+
+        //新的类的写法\p{...}和\P{...}，允许正则表达式匹配符合 Unicode 某种属性的所有字符。
+        const regexGreekSymbol = /\p{Script=Greek}/u;
+        regexGreekSymbol.test('π') // true
+
+        //具名组匹配 允许为每一个组匹配指定一个名字，既便于阅读代码，又便于引用。
+
+        const RE_DATE = /(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})/;
+
+        const matchObj = RE_DATE.exec('1999-12-31');
+        const year = matchObj.groups.year; // 1999
+        const month = matchObj.groups.month; // 12
+        const day = matchObj.groups.day; // 31
+
+        //“具名组匹配”在圆括号内部，模式的头部添加“问号 + 尖括号 + 组名”（?<year>），然后就可以在exec方法返回结果的groups属性上引用该组名。同时，数字序号（matchObj[1]）依然有效。
+         
+         //string.matchAll(regex)返回的是遍历器，所以可以用for...of循环取出。
+         //遍历器转为数组是非常简单的，使用...运算符和Array.from方法就可以了。
+
+
+    </script>
+</body>
+
+</html>

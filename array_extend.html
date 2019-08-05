@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <ul>
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+        <li>5</li>
+    </ul>
+    <script>
+        // var [a,b,c]=[1,2,3]  解构赋值
+        // console.log(a)  //1    
+
+        //扩展运算符（...），将一个数组转为用逗号分隔的参数序列
+        //主要用于函数的调用
+
+        var array=[1,2,3];
+        var items=[4,5];
+
+        array.push(items); 
+        console.log(array) //[1,2,3,[4,5]]    
+        array.push(...items); 
+        console.log(array) //[1,2,3,[4,5],4,5]    
+        // 注意，只有函数调用时，扩展运算符才可以放在圆括号中，否则会报错。
+
+        var arr1=[2,4,6,8];
+        var arr2=[...arr1]; //复制一个数组
+        console.log(arr2)
+        //找出数组中最大的元素 扩展运算符替代apply方法
+        var arr3=[2,33,44,52,0,21];
+        console.log(Math.max(...arr3))  //52
+        console.log(Math.max.apply(null,arr3)) //52
+
+        var a=[1,3,5,7];
+        var b=[11,13,15];
+        Array.prototype.push.apply(a,b); // [1, 3, 5, 7, 11, 13, 15]
+        console.log(a)
+        //合并数组
+
+        var alla=[...a,...b];
+        console.log(alla);  //[1, 3, 5, 7, 11, 13, 15, 11, 13, 15]
+
+
+        //如果将扩展运算符用于数组赋值，只能放在参数的最后一位，否则会报错。
+        //扩展运算符还可以将字符串转为真正的数组。
+
+        //扩展运算符可以将字符串转为真正的数组，能够正确识别四个字节的 Unicode 字符
+        var lis=document.querySelectorAll('li');
+        console.log(lis)
+        var li=[...lis];  //将nodelist转为数组
+        console.log(li)
+        li.pop();
+        console.log(li)
+
+
+
+
+        
+
+    </script>
+</body>
+</html>
