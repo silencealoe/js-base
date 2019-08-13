@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    *{
+      padding:0;
+      margin:0;
+    }
+    .boxa,.boxb{
+      width:200px;
+      height:100px;
+      background: darksalmon;
+      border:1px solid black;
+      margin:5px;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <p>当发生onchange时触发</p>
+    <input type="text" v-model.lazy="inputvalue" >
+    {{inputvalue}}
+    <p>将输入的数字转换为数值类型</p>
+    <input type="number" v-model.number="inputnum">
+    {{typeof inputnum}}
+    <p>去除输入的首尾空格</p>
+    <input type="text" v-model.trim="inputtrim">
+    {{inputtrim}}
+
+    <p>多选框</p>
+    <label for="one">
+      <input type="checkbox" v-model="checkall" name="one" value="apple">
+      apple
+    </label>
+    <label for="two">
+        <input type="checkbox" v-model="checkall" name="two" value="banana">
+        banana
+      </label>
+      <label for="three">
+          <input type="checkbox" v-model="checkall" name="three" value="peach">
+          peach
+        </label>
+        <p>your select:{{checkall.length?checkall:''}}</p>
+
+        <div class="bus">
+          <h2>bus中央总线实现非父子传值</h2>
+        </div>
+        <Boxa></Boxa>
+        <Boxb></Boxb>
+  </div>
+     
+  <template id="boxa">
+      <div class="boxa">
+        <h2>我就是个哥哥</h2>
+        <p v-if="bro">我有{{bro}} 个瓜</p>
+        <p v-else>我没有瓜了</p>
+        <button @click="tooto">给你瓜</button>
+      </div>
+    </template>
+    <template id="boxb">
+      <div class="boxb">
+        <h2>我就是个弟弟</h2>
+        <p v-if="oto">我有{{oto}} 个瓜</p>
+        <p v-else>我没有瓜</p>
+        <p>我有{{mon}} 块钱</p>
+          <button>给你钱</button>
+        </div>
+  </template>
+
+  <script src="./vuejs/vue.js"></script>
+  <script>
+    //input v-model  发生input时 获得data
+    //修饰符lazy  当发生onchange时获得data
+    //number 将输入的值转换为数值类型
+    //trim 去除输入的首尾空格
+    // var a=[];
+    // for(var i=0;i<10;i++){
+    //    a[i] = function(){
+    //     console.log(i)
+    //   };
+    // }
+    //   a[5]()
+
+     var bus=new Vue();
+
+     Vue.component('Boxa',{
+       template:'#boxa',
+       data(){
+         return{
+           bro:20
+         }
+       },
+       methods:{
+         tooto(){
+           bus.$emit('recivebro',this.bro);
+           this.bro=0;
+         }
+       }
+     })
+     Vue.component('Boxb',{
+       template:'#boxb',
+       data(){
+         return{
+           oto:0,
+           mon:10
+         }
+       },
+       mounted(){
+         let self= this;
+         bus.$on('recivebro',function(msg){
+           console.log(self.oto)
+           self.oto+=msg;
+         })
+       }
+     })
+
+     var vm= new Vue({
+       el:'#app',
+       data:{
+         inputvalue:'',
+         inputnum:'0',
+         inputtrim:'    123',
+         checkall:[]
+       }
+
+     })
+  </script>
+  
+</body>
+</html>

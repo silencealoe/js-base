@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>checkbox</title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+        }
+        .allbox {
+            width: 600px;
+            margin: 100px auto;
+            border: 1px solid deepskyblue;
+        }
+
+        header {
+            height: 60px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid deepskyblue;
+            line-height: 60px;
+        }
+
+        label {
+            user-select: none;
+        }
+        .salelist{
+            width:600px;
+            margin:300px auto;
+            border:1px solid darkred;
+            display:flex;
+            justify-content: space-around;
+            flex-wrap:wrap;
+        }
+        .salelist li{
+            width:180px;
+            border:1px solid #ccc;
+            list-style: none;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app1">
+        <div class="allbox">
+            <header>
+                <label>
+                    <input type="checkbox" v-model="all" @change="handleall">
+                    <span>check all</span>
+                </label>
+            </header>
+            <label v-for="data in datalist">
+                <input type="checkbox" v-model="data.select" @change="handleitem(data.select)">
+                <span>{{data.category}}</span>
+            </label>
+            <!-- <header>
+                    <label>
+                        <input type="checkbox" v-model="all">
+                        <span>check all</span>
+                    </label>
+                </header>
+                <label v-for="data in datalist">
+                    <input type="checkbox" v-model="data.select" @change="handleitem(data.select)">
+                    <span>{{data.category}}</span>
+                </label> -->
+        </div>
+    </div>
+
+    <script src="./vuejs/vue.js"></script>
+    <script>
+        //vue实现多选，反选
+        var vm = new Vue({
+            el: '#app1',
+            data: {
+                all: false,
+                checkarr: [],
+                datalist: [{
+                    category: 'ysl',
+                    select: false
+                }, {
+                    category: 'Dior',
+                    select: false
+                }, {
+                    category: 'Mac',
+                    select: false
+                }]
+            },
+            // methods:{
+            //     handleitem(select){
+            //       select?this.checkarr.push(select):this.checkarr.pop();
+            //     }
+            // },
+            // watch:{
+            //     'all':function(){
+            //         this.datalist.map(item => {
+            //           item.select = this.all;
+            //         });
+            //     },
+            //     'checkarr':function(){
+            //         this.checkarr.length===this.datalist.length?this.all=true:this.all=false
+            //     }
+            // }
+            methods: {
+                handleall() {
+                    this.datalist.forEach(item => {
+                        item.select = this.all;
+                    });
+                    !this.all?this.checkarr=[]:'';
+                },
+                handleitem(select){
+                    select?this.checkarr.push(select):this.checkarr.pop();
+                    this.checkarr.length===this.datalist.length?this.all=true:this.all=false
+                }
+            }
+
+        })
+
+        //methods,watch,computed三者的区别？
+        //methods中一般是业务逻辑
+        //watch监视data中数据的变化，执行对应变化的方法，也可监听非dom数据的变化，如路由
+        //computed:将方法当作属性来使用，使用时，不能添加括号，必须要有返回值，执行一次后，会有缓存，如果依赖的数据没有发生变化，不会执行，只有数据发生变化时，才会执行
+        //减小性能的开销
+    </script>
+
+</body>
+
+</html>

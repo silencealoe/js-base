@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    //Set,类似于数组，但是成员值唯一，没有重复，本身是一个构造函数，不重复值的集合
+    var s = new Set();
+    s.add(1);
+    console.log(s)
+
+    //数组去重
+
+    var arr = [1, 3, 5, 7, 9, 8, 7, 5, 3, 4];
+    var newarr = new Set(arr);
+    console.log(newarr.size) //7
+    console.log([...newarr])
+
+    //去除重复字符
+    var str = 'abcdefgaedfg'
+    var newstr = new Set(str);
+
+    console.log(newstr.has('s')) //false
+    newstr.add('cdefghio').add(123).delete('a')
+    console.log([...newstr].join(','))
+
+    //Set实例的属性的方法
+    // Set.prototype.constructor：构造函数，默认就是Set函数。
+    // Set.prototype.size：返回Set实例的成员总数。
+    // Set.prototype.add(value)：添加某个值，返回 Set 结构本身。
+    // Set.prototype.delete(value)：删除某个值，返回一个布尔值，表示删除是否成功。
+    // Set.prototype.has(value)：返回一个布尔值，表示该值是否为Set的成员。
+    // Set.prototype.clear()：清除所有成员，没有返回值。
+
+    // Array.from方法可以将 Set 结构转为数组
+
+    var it = new Set([1, 2, 3, 4, 5, 6]);
+    //for..of..  可以遍历Set结构
+    for (let i of it) {
+      console.log(i)
+    }
+
+
+
+    //weakSet 也是不重复值的集合，但是成员只能是对象，不能是其他类型的值
+    //weakSet中的对象都是弱引用，垃圾回收机制不会考虑weakSet对该对象的引用，如果没有其他对象对该对象的引用。垃圾回收机制会回收这个对象
+
+    console.log(typeof []) //object
+    //实例方法
+    // WeakSet.prototype.add(value)：向 WeakSet 实例添加一个新成员。
+    // WeakSet.prototype.delete(value)：清除 WeakSet 实例的指定成员。
+    // WeakSet.prototype.has(value)：返回一个布尔值，表示某个值是否在 WeakSet 实例之中。
+    // WeakSet 没有size属性，没有办法遍历它的成员
+    //weakSet不能遍历，因为其成员都是弱引用，随时可能会消失，遍历机制不能保证成员的存在，很可能刚遍历结束，成员就消失了
+
+    //weakSet的作用是储存dom节点而不用担心这些节点从文档移除时，会引发内存泄漏。
+
+    //Map 各种类型的值都可以被当作键,生成键值对的集合
+    //
+    console.log(+0===-0)  
+    //两个值严格相等，认为是一个键
+    // undefined和null也是两个不同的键。虽然NaN不严格相等于自身，但 Map 将其视为同一个键。
+    const m=new Map();
+    m.set('a',1)
+    m.set('b',2)
+    console.log(m.get('a'))  //1
+
+    //原有的数据结构：Array和Object,es6新增加 Map 和 Set 
+    // Map：键值对集合
+    // Set :不重复数值的集合
+
+    //talk is too much ,can not see the important ohh...,it is useless
+
+    
+
+
+  </script>
+
+</body>
+
+</html>

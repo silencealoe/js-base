@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
 </head>
+
 <body>
     <ul>
         <li>1</li>
@@ -21,49 +23,130 @@
         //扩展运算符（...），将一个数组转为用逗号分隔的参数序列
         //主要用于函数的调用
 
-        var array=[1,2,3];
-        var items=[4,5];
+        var array = [1, 2, 3];
+        var items = [4, 5];
 
-        array.push(items); 
+        array.push(items);
         console.log(array) //[1,2,3,[4,5]]    
-        array.push(...items); 
+        array.push(...items);
         console.log(array) //[1,2,3,[4,5],4,5]    
         // 注意，只有函数调用时，扩展运算符才可以放在圆括号中，否则会报错。
 
-        var arr1=[2,4,6,8];
-        var arr2=[...arr1]; //复制一个数组
+        var arr1 = [2, 4, 6, 8];
+        var arr2 = [...arr1]; //复制一个数组
         console.log(arr2)
         //找出数组中最大的元素 扩展运算符替代apply方法
-        var arr3=[2,33,44,52,0,21];
-        console.log(Math.max(...arr3))  //52
-        console.log(Math.max.apply(null,arr3)) //52
+        var arr3 = [2, 33, 44, 52, 0, 21];
+        console.log(Math.max(...arr3)) //52
+        console.log(Math.max.apply(null, arr3)) //52
 
-        var a=[1,3,5,7];
-        var b=[11,13,15];
-        Array.prototype.push.apply(a,b); // [1, 3, 5, 7, 11, 13, 15]
+        var a = [1, 3, 5, 7];
+        var b = [11, 13, 15];
+        Array.prototype.push.apply(a, b); // [1, 3, 5, 7, 11, 13, 15]
         console.log(a)
         //合并数组
 
-        var alla=[...a,...b];
-        console.log(alla);  //[1, 3, 5, 7, 11, 13, 15, 11, 13, 15]
+        var alla = [...a, ...b];
+        console.log(alla); //[1, 3, 5, 7, 11, 13, 15, 11, 13, 15]
 
 
-        //如果将扩展运算符用于数组赋值，只能放在参数的最后一位，否则会报错。
+        //如果将扩展运算符用于数组赋值，只能放在参数的最后一位，否则会报错。----
         //扩展运算符还可以将字符串转为真正的数组。
 
         //扩展运算符可以将字符串转为真正的数组，能够正确识别四个字节的 Unicode 字符
-        var lis=document.querySelectorAll('li');
+        var lis = document.querySelectorAll('li');
         console.log(lis)
-        var li=[...lis];  //将nodelist转为数组
+        var li = [...lis]; //将nodelist转为数组
         console.log(li)
         li.pop();
         console.log(li)
 
+        //伪数组转为数组的方法
+        //Array.prototype.slice.call(arrayLike);
+        //遍历
+        //Array.form() es6
+        //展开运算符  ...
+
+        //
+        //    console.log(Array.from({length:3}))   //[undefine,undefine,undefine]
 
 
+        //Array.from()
+        //Array.from()可接受第二个参数，作用类似数组的map方法，对每个数进行处理，将处理后的值放入返回的数组
+        // Array.from([1, 2, 3], (x) => x * x)
+        // [1, 4, 9]
 
-        
+        //将数组中布尔值为false的成员转为0
+        console.log(Array.from([1, , 2, 3, , 6], n => n || 0))
+        //Array.from()接受第三个参数用于绑定this
 
+        //Array.of()
+        //将一组值转换为数组
+        Array.of(3, 11, 8) // [3,11,8]
+        Array.of(3).length // 1
+        //模拟实现
+        function Arrayof() {
+            console.log([].slice.call([]));
+        }
+
+        //数组实例的copyWithin(target,start,end) 将指定位置的成员复制到其他位置（会覆盖原来的成员）返回新数组，改变原来的数组
+
+        console.log([1, 3, 5, 7, 9].copyWithin(1, 3, 4)) //[1,7,5,7,9]
+        console.log([1, 3, 5, 7, 9].copyWithin(-1, -3, -2)) //[1,7,5,7,5]
+
+        //find() 用于找出第一个符合条件的数组成员，如果找到返回该成员，没有找到返回undefined
+        console.log([1, 3, 5, 7, 9].find(n => n > 5)) //7
+        console.log([1, 3, 5, 7, 9].find(n => n > 10)) //undefined
+
+        //findIndex() 和 find()类似，返回第一个符合条件的数组成员位置，如果所有都不符合条件，返回-1
+        console.log([1, 3, 5, 7, 9].findIndex(n => n == 3)) //index:3
+        console.log([1, 3, 5, 7, 9].findIndex(n => n > 10)) //-1
+
+        let person = {
+            name: 'yier',
+            age: 22
+        }
+
+        function fun(v) {
+            return v > this.age
+        }
+        console.log([11, 22, 33, 44].findIndex(fun, person)) //2 第二个参数绑定this的指向
+        //  [11,22,33,44].findIndex(fun,person)
+        console.log([NaN].findIndex(n => n === NaN))
+        // indexOf方法无法识别数组的NaN成员，但是findIndex方法可以借助Object.is方法做到。
+
+        //fill() 填充一个数组
+        //空数组的初始化
+        // ['a', 'b', 'c'].fill(7)
+        // [7, 7, 7]
+
+        //entries(), keys(), values()
+        //entries() 对键值对进行遍历
+        //keys() 对建遍历
+        //values() 对值遍历
+
+        var a1 = ['1', '2', '3'];
+        for (let index of a1.entries()) {
+            console.log(index)
+        }
+
+        //includes(),某个数组是否包含给定的值，返回布尔值
+        //第二个参数表示搜索的起始位置，默认为0，负数表示倒数位置
+        //indexOf方法有两个缺点，一是不够语义化，它的含义是找到参数值的第一个出现位置，所以要去比较是否不等于-1，表达起来不够直观。二是，它内部使用严格相等运算符（===）进行判断，这会导致对NaN的误判。
+
+
+        //flat() ,将数组里面的嵌套数组拉平，不改变原数组
+        [1, 2, [3, 4]].flat()
+        // [1, 2, 3, 4]
+        [1, 2, [3, [4, 5]]].flat(2)
+        // [1, 2, 3, 4, 5]
+        // flatMap()方法对原数组的每个成员执行一个函数（相当于执行Array.prototype.map()），然后对返回值组成的数组执行flat()方法。该方法返回一个新数组，不改变原数组。
+
+        //数组的空位
+        //forEach(), filter(), reduce(), every() 和some()都会跳过空位。
+        // map()会跳过空位，但会保留这个值
+        // join()和toString()会将空位视为undefined，而undefined和null会被处理成空字符串。
     </script>
 </body>
+
 </html>
