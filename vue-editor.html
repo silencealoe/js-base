@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      list-style: none;
+    }
+    .container{
+      width:500px;
+      margin:100px auto;
+    }
+    input{
+      height:20px;
+    }
+    .datalist{
+      border:1px solid black;
+    }
+    li{
+      height:30px;
+      line-height: 30px;
+      border-bottom: 1px solid gray;
+    }
+    .del{
+      float: right;
+      margin-right: 20px;
+      margin-top: 5px;
+    }
+    .date{
+      margin-left: 100px;
+    }
+    header{
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div id="container" class="container">
+    <header>
+      <input type="text" v-model="inpt">
+      <button @click="handleClick">添加</button>
+    </header>
+      <ul class="datalist">
+        <li v-for="data in datalist">
+          <span>{{data.content}}</span>
+          <span class="date">{{ data.date | dateformate}}</span>
+          <span>
+              <button class="del">删除</button>
+          </span>
+        </li>
+        
+      </ul>
+  </div>
+  <script src="./vuejs/vue.js"></script>
+  <script>
+    Vue.filter('dateformate',function(date){
+      var time = new Date(date)
+      let year = time.getFullYear()
+      let month = (time.getMonth()+1).toString().padStart(2,'0')
+      let day = time.getDate().toString().padStart(2,'0')
+      let hour = time.getHours().toString().padStart(2,'0')
+      let minute = time.getMinutes().toString().padStart(2,'0')
+
+      return `${year}年${month}月${day}日 ${hour}:${minute}`
+
+
+    })
+    var vm = new Vue({
+      el:'#container',
+      data:{
+        inpt:'',
+        datalist:[
+          {
+            content:'111',
+            date:new Date()
+          }
+        ]
+      },
+      methods:{
+        handleClick(){
+          let dataobj={
+            content:this.inpt,
+            date:new Date()
+          }
+          this.datalist.push(dataobj)
+        }
+      }
+    })
+  </script>
+  
+</body>
+</html>

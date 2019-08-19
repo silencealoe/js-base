@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    //proxy 修改某些操作的默认行为 在语言层面做出修改 属于元编程，即对编程语言进行编程
+    //为什么需要proxy
+    //被代理对象不想直接被访问
+    //作用：进行访问控制和增加功能
+
+    var obj={
+      firstname:'xiaoming',
+      age:18
+    }
+    //Proxy() 构造函数 
+    var proxy = new Proxy(obj,{
+      get:function(tartget,property){ //两个参数分别是目标对象和要访问的属性
+        console.log(tartget[property])
+        return 'ming'
+      }
+    })
+   console.log(proxy.firstname) 
+   console.log(proxy.age) 
+
+  //  var arr=[1,2,3];
+  //  console.log(arr[-1]) // undefined
+   
+
+   //使用Proxy实现数组 -1获取倒数第一个成员
+   function createArray(...args){
+     console.log(args);
+     let newArr=[];
+     newArr.push(...args);
+     return new Proxy(newArr,{
+       get:function(target,property){
+         console.log(property)
+          let index=Number(property);
+         if(index<0){
+           index=target.length+index;
+         }
+         return target[index]
+       }
+     })
+   }
+   var arr=createArray('a','b','c');
+   console.log(arr[-2])
+
+   //Proxy中的apply方法拦截函数的调用，call和apply操作
+
+   function func(){
+     return 'i am a function'
+   }
+
+   var proxy= new Proxy(func,{
+     apply:function(){
+       return 'i am prevented'
+     }
+   })
+  //  console.log(func());
+console.log(proxy())
+
+var string='hello';
+console.log(string[0]) //h
+
+
+//has判断对象是否具有某个属性
+
+var obj2={
+  '_obj':12,
+  age:20
+}
+var p = new Proxy(obj2,{
+  has:function(target,key){
+    console.log(key)
+    if(key[0] === '_'){
+      return false
+    }
+    return key in target
+  }
+})
+console.log('_obj' in p) //falsed
+console.log('_obj' in obj2) //true
+
+
+
+
+
+
+
+  </script>
+  
+</body>
+</html>

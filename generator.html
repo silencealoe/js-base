@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    //  调用generator函数返回的是一个指向内部状态的对象
+    //  yield 定义不同内部状态，调用next方法，指针指向下一个状态，直到下一个状态，或者return，yield表达式就是暂停标志
+    //遇到yield表达式，就暂停执行后面的操作，并将紧跟在yield后面的那个表达式的值，作为返回的对象的value属性值。
+    // 如果没有再遇到新的yield表达式，就一直运行到函数结束，直到return语句为止，并将return语句后面的表达式的值，作为返回的对象的value属性值。
+    // 如果该函数没有return语句，则返回的对象的value属性值为undefined。
+
+    //yield表达式只能用在 Generator 函数里面
+
+
+
+    function* helloWorld(){
+     yield 'hello';
+     return;
+     yield 'world';
+     yield 'hahah';
+    }
+    var hw = helloWorld();
+    console.log(hw.next())
+    console.log(hw.next())
+    console.log(hw.next())
+
+    function * func(x){
+      var y = 2 *(yield (x+1));
+      var z = yield (y / 3);
+      return x+y;
+    }
+    var a = func(2);
+   console.log(a.next()) 
+   console.log(a.next(3)) //next的参数表示上一个yield表达式的返回值
+
+  //  、、for...of循环可以自动遍历 Generator 函数运行时生成的Iterator对象，且此时不再需要调用next方法
+  
+  
+  </script>
+</body>
+</html>

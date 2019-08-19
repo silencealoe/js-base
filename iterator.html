@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    //Iterator 是一种接口，为各种不同的数据结构提供统一访问机制，任何数据结构只要部署Iterator接口，就可以完成遍历操作，依次处理该数据结构的所有成员
+    // Iterator 的遍历过程是这样的。
+    // （1）创建一个指针对象，指向当前数据结构的起始位置。也就是说，遍历器对象本质上，就是一个指针对象。
+    // （2）第一次调用指针对象的next方法，可以将指针指向数据结构的第一个成员。
+    // （3）第二次调用指针对象的next方法，指针就指向数据结构的第二个成员。
+    // （4）不断调用指针对象的next方法，直到它指向数据结构的结束位置。
+
+    // Iterator 的作用有三个：
+    // 一是为各种数据结构，提供一个统一的、简便的访问接口；
+    // 二是使得数据结构的成员能够按某种次序排列；
+    // 三是 ES6 创造了一种新的遍历命令for...of循环，Iterator 接口主要供for...of消费。
+    //一种数据结构只要部署了 Iterator 接口，我们就称这种数据结构是“可遍历的”（iterable）
+
+    console.log(new Array())  //有Symbol.iterator属性
+
+    // 数组的Symbol.iterator属性
+    let arr=['a','b','c'];
+    let iter=arr[Symbol.iterator]();
+    console.log(iter.next());
+    console.log(iter.next());
+    console.log(iter.next());
+    console.log(iter.next());
+
+    let p={
+      name:'asd',
+      age:18
+    }
+   //p is not iterable
+    console.log(Object.keys(p))
+    // for(let item of p){
+    //   console.log(item)
+    // }
+   //给对象加上 Symbol.iterator 方法
+    p[Symbol.iterator]=function(){
+      let index=0;
+      return {
+        next:function(){
+             let keys = Object.keys(p);
+             return index < keys.length ? {value: p[keys[index++]]} : {done:true}
+
+        }
+      }  
+    }
+
+    let iterator= p[Symbol.iterator]()
+    console.log(iterator.next())
+    console.log(iterator.next())
+
+  
+    // console.log(nextva())
+
+     for(let (name,value) of p){
+      console.log(name+':'+value)
+    }
+
+    // console.log(p[Symbol.iterator]())
+    // console.log(p[Symbol.iterator]())
+
+   var obj={
+     name:'xiaoming',
+     age:12
+   }
+  var arrr=[1,2,3];
+   obj[Symbol.iterator]=arrr[Symbol.iterator].bind(arrr);
+   for(let v of obj){
+     console.log(v)  
+   }
+
+   //for..in 遍历键名  for..of 遍历键值
+   // for..of 可以使用提出循环，终止循环，foreach()不能
+
+
+
+
+    function out(){
+      var i=0;
+     var inner=function(){
+       console.log(i++)
+     }
+     return inner
+    }
+  
+  let fun=out();
+  fun() 
+  fun()
+  fun()
+
+  //遍历器的 return 方法和 throw方法
+
+
+
+
+  </script>
+
+</body>
+
+</html>
