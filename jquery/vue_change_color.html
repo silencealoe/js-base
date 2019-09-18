@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    .red{
+      color:red
+    }
+    li{
+      user-select: none;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <input type="text" v-model="inpt" @keyup.enter="handlechange">
+    <ul>
+      <li v-for="data in datalist" @click="handleClick(data)" :class="data.isChange?'red':''">{{data.data}}</li>
+    </ul>
+  </div>
+
+  <script src="../vuejs/vue.js"></script>
+  <script>
+    var vm= new Vue({
+      el:'#app',
+      data:{
+        inpt:'',
+        datalist:[]
+      },
+      methods:{
+        handlechange(){
+          this.datalist.push({data:this.inpt,isChange:false})
+
+        },
+        handleClick(data){
+          data.isChange=!data.isChange
+        }
+      }
+    })
+  </script>
+</body>
+</html>

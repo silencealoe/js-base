@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    //es6引入类的概念，es6的类是可以看作是es5构造函数的另外一种写法
+    //在类中 只能写constructor,静态方法，静态属性，实例方法
+    //语法糖：用起来比较方便，看起来顺眼，但是本质没有改变
+
+    class Person {
+      static addr = 'dalian' //新写法，定义静态属性，通过构造函数直接访问的属性
+      _gender = 'male'
+      constructor(name,
+      age) { //constructor方法默认返回实例对象，通过new命令执行生成对象的时候，自动调用该方法，一个类必须有这个方法，如果没有显示定义，一个空的constructor方法会被默认添加
+        this.name = name //name和age是p自身的属性
+        this.age = age //name,age是实例属性 通过constructor挂载实例属性
+      }
+      action() { //action方法是原型对象上的属性，是实例方法
+        return `${this.name},今年${this.age},she is ${this._gender},他在哈哈哈`
+      }
+      static drag() {
+        console.log(`she is f=d `)
+      }
+      static gender() {
+        this.drag()
+      }
+    }
+    let p = new Person('xiaoming', 18)
+    console.log(p.action())
+
+    //object.assign()可以向类一次添加多个方法
+    Object.assign(Person.prototype, {
+      eat() {
+        return `${this.name},他在吃东西`
+      },
+      drink() {
+        return `${this.name},他在喝东西`
+      }
+    })
+    console.log(p.drink())
+    console.log(p.eat())
+    console.log(Object.getOwnPropertyNames(Person.prototype)) // ["constructor", "action", "eat", "drink"]\
+    console.log(Person.prototype.constructor === Person) //true
+    // 直接指向类本身
+    // 注意
+    // 类的内部默认使用严格模式
+    // 类不存在变量提升
+
+    //静态方法：不会被实例继承的方法，在类中的方法前加上static关键字，就表示该方法不会被实例继承，而是直接通过类来调用
+    Person.drag()
+    Person.gender()
+    //  p.drag()  error
+    // 静态方法与非静态方法可以重名，静态方法中的this指向类而不是指向实例
+    //父类的静态方法会被子类继承
+    class God extends Person {
+      // super
+    }
+    God.drag()
+
+    //定义静态属性
+    // Person.addr="dalian"  // 定义静态属性 老写法
+
+    //私有方法和私有属性，是只能在类的内部访问的属性和方法，外部不能访问
+
+    class Shape {
+      #_area = 20 //设置私有属性，在类外访问会出错
+      constructor(x, y) { //每一个类中都有一个构造器，作用是，每当new这个类的时候，优先执行构造器里面的代码
+        this.x = x;
+        this.y = y;
+      }
+      area() {
+        return getArea.call(this)
+        // console.log(`area is ${this.x*this.y}`)
+      }
+    }
+
+    function getArea() { //将私有方法移出到模块外，在外调用会报错
+      return this.x * this.y
+
+    }
+    var s = new Shape(2, 3)
+    // console.log(s.#_area) //error 私有属性在类外访问会出错
+    console.log(s.area())
+
+
+    //私有属性，在属性名前面加上#
+
+    // new.target 属性  返回new命令作用于的那个构造函数，如果构造函数不是通过new命令和reflect.constructor()调用，new.target会返回undefined
+    //因此可以确定构造函数是怎么调用的
+
+    //------------------------继承------------------------
+    class American extends Person { //使用extends关键字实现子类继承父类
+
+
+    }
+
+    let a = new American('jack', 20)
+    console.log(a)
+
+
+    class Animal {
+      constructor(name, color) {
+        this.name = name;
+        this.color = color
+      }
+      yell() {
+        console.log(`${this.name},it is ${this.color},it is yelling`)
+      }
+    }
+    class Dog extends Animal {
+      constructor(name, color, wang) {
+        // this.wang = wang  error
+        super(name, color)  // 子类通过extends继承父类，在子类的constructor函数中必须优先调用super() (第一行必须是super)
+      //super 表示父类的构造器，就是父类的构造器constructor的引用
+        this.wang = wang
+      }
+      todo() {
+        super.yell()
+        console.log('sdsf',super.valueOf())  //返回B的实例
+        // console.log(`${this.name},${this.color},${this.wang}`)
+      }
+
+    }
+    console.log(Dog.__proto__===Animal)   //true
+    //子类原型的原型的父类的原型
+    console.log(Dog.prototype.__proto__===Animal.prototype)   //true
+    console.log(Animal.__proto__===Function.prototype)   //true
+    
+
+
+    var dog = new Dog('dahuang', 'yellow', 'wangwang');
+    // console.log(dog.name)
+    dog.todo()
+    console.log(Object.getPrototypeOf(Dog))
+
+    //super关键字 可以当函数使用，也可以当对象使用
+    //super作为函数时代表父类的构造函数，子类的构造函数必须执行一次super函数
+    //super 内部的this指向子类的实例，super只能用在子类的构造函数中，用在其他地方就会报错
+   //super 在子类静态方式之中指向父类，在普通方法之中指向父类的原型对象
+   //在静态方法中通过super调用父类的方法时，方法内部的this指向当前的子类，而不是子类的实例
+
+   //---------------------------Mixin模式的实现
+   //Minxin指的是多个对象合成一个对象，新对象具有各个组成成员的接口
+
+   
+
+
+  </script>
+</body>
+
+</html>

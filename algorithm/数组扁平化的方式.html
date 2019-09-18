@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>数组扁平化</title>
+</head>
+<body>
+  <script>
+    var arr = [[30,31],1,2,[3,4,5,[6,7,8],9],10,[11,12]];
+    //法一：遍历
+    function iterator(arr){
+      let newarr = []
+      arr.forEach(element => {
+        if(element instanceof Array){
+          newarr=newarr.concat(iterator(element))
+        }else{
+          newarr.push(element)
+        }
+      });
+      return newarr
+    }
+    console.log(iterator(arr))
+
+ var arr3 = [[1,2,[3,4,[5,6],7,[8,9,[10,11],21],20],15],12]
+//////////////////////////////////////////////////////////////////////////////////////
+      //法二 reduce实现
+      function Reduce(ar){
+      return  ar.reduce((prev,cur)=>{
+          return prev.concat(Array.isArray(cur)? Reduce(cur) : cur) 
+        },[])
+      }
+      console.log(Reduce(arr3))
+/////////////////////////////////////////////////////////////////////////////////////
+ //法三  flat实现
+  function Flat(arr,inc){
+    return arr.flat(inc)
+  }
+  console.log(Flat(arr3,5))
+  //////////////////////////////////////////////////////////////////////////////////
+  //法四  扩展运算符
+  console.log(arr3)
+  function extendOperator(array){
+    let newarr = []
+    let finish = true
+    array.forEach(item=>{
+      if(Array.isArray(item)){
+        newarr.push(...item)
+        finish = false
+      } else {
+        newarr.push(item)
+      }
+    })
+    if(finish){
+      return newarr
+    } else {
+      return extendOperator(newarr)
+    }
+  }
+console.log(extendOperator(arr3))
+
+//法五  toString()
+
+function ToString(arrays){
+  return arrays.toString().split(',').map(item=>{
+      return parseInt(item)
+   })
+}
+console.log(ToString(arr3))
+
+//法五 apply()方法
+var j=0
+function ToApply(ars){
+  while(ars.some(item=>Array.isArray(item))){
+    ars = [].concat.apply([],ars)
+    console.log(j++)
+  }
+  return ars
+}
+console.log(ToApply(arr3))
+
+var testArr = [20,1,2,3,4,12,22,33,43,7,8,21]
+var i = 0 ;
+
+//数组的some方法
+//用于检测数组中元素是否满足指定条件，依次执行数组中每一个元素，有一个元素满足条件就返回true,没有满足条件的元素返回false
+//some不会对空元素进行检测，some 不会改变原数组
+while(testArr.some(item=>item>10)){
+  testArr.shift()
+  console.log(i++)
+}
+
+
+
+
+
+
+  </script>
+  
+</body>
+</html>

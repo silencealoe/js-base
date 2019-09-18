@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    //  调用generator函数返回的是一个指向内部状态的对象
+    //  yield 定义不同内部状态，调用next方法，指针指向下一个状态，直到下一个状态，或者return，yield表达式就是暂停标志
+    //遇到yield表达式，就暂停执行后面的操作，并将紧跟在yield后面的那个表达式的值，作为返回的对象的value属性值。
+    // 如果没有再遇到新的yield表达式，就一直运行到函数结束，直到return语句为止，并将return语句后面的表达式的值，作为返回的对象的value属性值。
+    // 如果该函数没有return语句，则返回的对象的value属性值为undefined。
+
+    //yield表达式只能用在 Generator 函数里面
+
+
+
+    function* helloWorld() {
+      yield 'hello';
+      return;
+      yield 'world';
+      yield 'hahah';
+    }
+    var hw = helloWorld();
+    console.log(hw.next())
+    console.log(hw.next())
+    console.log(hw.next())
+
+    function* func(x) {
+      var y = 2 * (yield(x + 1));
+      var z = yield(y / 3);
+      return x + y;
+    }
+    var a = func(2);
+    console.log(a.next())
+    console.log(a.next(3)) //next的参数表示上一个yield表达式的返回值
+
+    //  、、for...of循环可以自动遍历 Generator 函数运行时生成的Iterator对象，且此时不再需要调用next方法
+
+
+    // //async await函数    ayync函数返回一个promise对象，可以使用then方法添加回调函数
+    // async function helloHi(n){
+    //      if(n) return n
+    //      else return 'error'
+    // }
+    // helloHi(1).then(v=> console.log(v))
+    //async的使用方式
+
+    // 函数表达式 const foo = async function () {};
+    // 函数声明  async function foo() {}
+    //对象的方法 let obj = { async foo() {} };
+    // obj.foo().then(...)
+
+    //class的方法
+    // async getAvatar(name) {
+    // const cache = await this.cachePromise;
+    // return cache.match(`/avatars/${name}.jpg`);
+    // }
+    // const foo = async () => {};
+
+    //async函数返回的promise对象必须等到内部所有await命令后面的Promise对象执行完，才会发生状态改变，除非遇到return 或者抛出错误，
+
+    //实现休眠效果
+
+    function sleep(interval){
+      return new Promise(resolve=>{
+        setTimeout(resolve,interval)
+        console.log('sleep')
+      })
+    }
+
+    async function one2fiveIn(){
+      // for(let i=0;i<=5;i++){
+        // console.log(i);
+        await console.log('gh')
+        await sleep(5000);  //会等到sleep函数执行完才接着执行循环
+        await sleep(3000);  //会等到sleep函数执行完才接着执行循环
+        console.log('sdf')
+      // }
+    }
+    one2fiveIn()
+
+    // function test1() {
+    //  return  new Promise(resolve => {
+    //     // setTimeout(function () {
+    //     //   console.log('aaaaa')
+    //     // }, 1000)
+    //     console.log('dddd')
+    //   })
+    // }
+    // function test2() {
+    //   console.log('ffff')
+    //  return new Promise(resolve => {
+    //     setTimeout(function () {
+    //       console.log('bbbbb')
+    //     }, 2000)
+    //   })
+    // }
+
+    // async function sample() {
+    //   await test1();
+    //   await test2();
+    //   console.log('cccc')
+    // }
+    // sample()
+  </script>
+</body>
+
+</html>
