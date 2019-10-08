@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    //在一个字符串数组中，有红黄蓝三种颜色的球，且个数不相等，顺序不一致，请为该数组排序，使得排序后的数组中球的顺序为黄，红，蓝
+   
+    const ballArr ='红蓝黄黄红蓝蓝黄蓝红'.split('')
+    function sortBallone(arr) {
+      let newarr = []
+      let res=[]
+      arr.map(item => {
+      let ballObj = {
+        ball: '',
+        code: 0
+      }
+        if (item === '黄') {
+          ballObj.ball = item
+          ballObj.code = 1
+        } else if (item === '红') {
+          ballObj.ball = item
+          ballObj.code = 2
+        } else {
+          ballObj.ball = item
+          ballObj.code = 3
+        }
+        newarr.push(ballObj)
+      })
+     newarr.sort((item1,item2)=>item1.code - item2.code)
+     newarr.map(it=>res.push(it.ball))
+      return res.join('')
+    }
+    console.log(sortBallone(ballArr))
+
+    function sortBalltwo(Arr){
+      let obj = {
+        '黄': 0,
+        '红': 1,
+        '蓝': 2
+      }
+      return Arr.sort((item1,item2)=>obj[item1]-obj[item2]).join('')
+    }
+    console.log(sortBalltwo(ballArr))
+    
+
+  </script>
+</body>
+
+</html>
