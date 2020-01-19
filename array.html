@@ -188,6 +188,86 @@
       return a - b
     })
     console.log(su) //-52 
+   // reduce 的应用：
+  //  提取数组中对象中属性为name对应的值
+  var wizards = [
+        {
+          name: 'Harry Potter',
+          house: 'Gryfindor'
+        },
+        {
+          name: 'Cedric Diggory',
+          house: 'Hufflepuff'
+        },
+        {
+          name: 'Tonks',
+          house: 'Hufflepuff'
+        },
+        {
+          name: 'Ronald Weasley',
+          house: 'Gryfindor'
+        },
+        {
+          name: 'Hermione Granger',
+          house: 'Gryfindor'
+        }
+      ];
+      // 提取house为Gryfindor的name
+      const namearr = wizards.reduce((newarr, curren) => {
+        if (curren.house === 'Gryfindor') {
+          newarr.push(curren.name);
+        }
+        return newarr;
+      }, []);
+      console.log(namearr);
+
+      groupBy(nums, criteria) {
+      // 分组 [6.1, 4.2, 6.3] 按整数分组
+      // console.log(nums);
+      // // nums = Math.floor(...nums)
+      // const res = nums.reduce((newObj, current) => {
+      //   console.log(newObj);
+      //   const key = criteria(current);
+      //   if (!newObj.hasOwnProperty(key)) {
+      //     newObj[key] = [];
+      //   }
+      //   newObj[key].push(current);
+      //   return newObj;
+      // }, {});
+      // 按字符串长度分组
+      const res = nums.reduce((newObj, current) => {
+        const key = current.length;
+        if (!newObj.hasOwnProperty(key)) {
+          newObj[key] = [];
+        }
+        newObj[key].push(current);
+        return newObj;
+      }, {});
+      console.log(res);
+    }
+    groupBy(['one', 'two', 'three'],null);
+
+     // 合并单个数据到数组对象中，将对应分数合并到对应对象中
+     var points = {
+        HarryPotter: 500,
+        CedricDiggory: 750,
+        RonaldWeasley: 100,
+        HermioneGranger: 1270
+      };
+      const pointArr = wizards.reduce((newarr, current) => {
+        const newName = current.name.replace(' ', '');
+        if (newName in points) {
+          current.point = points[newName];
+        } else {
+          current.point = 0;
+        }
+        newarr.push(current);
+        return newarr;
+      }, []);
+      console.log('pointArr', pointArr);
+
+
+
 
 
     //indexOf()  lastindexOf()

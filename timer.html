@@ -56,12 +56,11 @@
 
         function throttle() {
             var time = new Date(); //一直存在内存
+            console.log('time-----',time);
             return function () {
                 var now = new Date();
-
                 if (now - time < 5000) {
                     return;
-
                 }
                 setTimeout(function () {
                     console.log('ssss');
