@@ -30,6 +30,12 @@
       </div>
     </div>
   </div>
+  <ul class="parentUl">
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+    <li>4</li>
+  </ul>
 </body>
 <script>
   var grand = document.querySelector('.grandparent');
@@ -47,6 +53,13 @@
   function childFun(){
     console.log('cccccc')
   }
+  // 事件代理
+  var ul = document.querySelector('.parentUl')
+  ul.onclick = function(e) {
+    console.log(e.currentTarget) // ul
+    console.log(e.target) // li
+  }
+
 
 </script>
 </html>
